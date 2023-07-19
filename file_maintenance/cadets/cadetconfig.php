@@ -98,21 +98,21 @@ if(isset($_REQUEST['update_student']))
 <?php
 if(isset($_POST['save_student']))
 {
-    $deptcode = mysqli_real_escape_string($conn, $_POST['deptcode']);
-    $deptname = mysqli_real_escape_string($conn, $_POST['deptname']);
-    $depthead = mysqli_real_escape_string($conn, $_POST['depthead']);
-    $deptgroup = mysqli_real_escape_string($conn, $_POST['deptgroup']);
+    $afpsn = mysqli_real_escape_string($conn, $_POST['afpsn']);
+    $servid = mysqli_real_escape_string($conn, $_POST['servid']);
+    $majid = mysqli_real_escape_string($conn, $_POST['majid']);
+    $yrgr = mysqli_real_escape_string($conn, $_POST['yrgr']);
 
-    $query = "INSERT INTO department (deptcode,deptname,depthead,deptgroup) 
-    VALUES ('$deptcode','$deptname','$depthead','$deptgroup')";
+    $query = "INSERT INTO cadet (afpsn,servid,majid,yrgr) 
+    VALUES ('$afpsn','$servid','$majid','$yrgr')";
     
     if (mysqli_query($conn, $query)){
         $_SESSION['message'] = "Cadet Created Successfully";
-        echo "<script>window.location.href = 'department.php';</script>";
+        echo "<script>window.location.href = 'cadet.php';</script>";
         exit(0);
     } else {
         $_SESSION['message'] = "Cadet Not Created";
-        echo "<script>window.location.href = 'department.php';</script>";
+        echo "<script>window.location.href = 'cadet.php';</script>";
         exit(0);
     }
 }

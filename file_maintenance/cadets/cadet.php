@@ -153,7 +153,7 @@ if(!isset($_SESSION['user_name'])){
 
                             if(mysqli_num_rows($query_run) > 0)
                             {
-                                foreach($query_run as $dept)
+                                foreach($query_run as $cadet)
                                 {
                                     ?>
                                     <tr>
