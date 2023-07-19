@@ -73,7 +73,7 @@ include 'dbcon.php';
 
             <div class="search-box">
                 <i class="uil uil-search"></i>
-                <input type="text" id="searchInput" placeholder="Search here..." oninput="searchTable()">
+                <input type="text" id="searchInput" placeholder="Search here..." oninput="searchTable()" style="text-transform: uppercase;">
             </div>
             
             <!--<img src="images/profile.jpg" alt="">-->
@@ -130,22 +130,29 @@ include 'dbcon.php';
                                     </div>
                                     <div class="card-body">
                                         <table class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th class="td">DEPTCODE</th>
-                                                    <th contenteditable="true" class="td">DEPTNAME</th>
-                                                    <th contenteditable="true" class="td">DEPTHEAD</th>
-                                                    <th contenteditable="true" class="td">DEPTGROUP</th>
-                                                    <th class="td"></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
+                                        <thead>
+                                            <tr>
+                                                <th class="td">DEPTCODE</th>
+                                                <th contenteditable="true" class="td">DEPTNAME</th>
+                                                <th contenteditable="true" class="td">DEPTHEAD</th>
+                                                <th contenteditable="true" class="td">DEPTGROUP</th>
+                                                <th class="td"></th>
+                                            </tr>
+                                        </thead>
+                                         <tbody id="tableBody">
                                             <?php 
                                                 $query = "SELECT * FROM department LIMIT $entriesPerPage OFFSET $offset";
                                                 $query_run = mysqli_query($conn, $query);
 
                                                 $rowNum = ($currentPage - 1) * $entriesPerPage + 1;
                                                 while ($dept = mysqli_fetch_assoc($query_run)) {
+                                                    $deptcode = $dept['deptcode'];
+                                                    $deptname = $dept['deptname'];
+                                                    $depthead = $dept['depthead'];
+                                                    $deptgroup = $dept['deptgroup'];
+                                                
+                                                    // Convert the PHP variables to JSON format and encode them
+                                                    $deptJson = json_encode([$deptcode, $deptname, $depthead, $deptgroup]);
                                                     ?>
                                                     <tr class="myList">
                                                         <td><?= $dept['deptcode']; ?></td>
@@ -223,27 +230,5 @@ include 'dbcon.php';
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
-
-
-    <!-- search box filtering java -->
-    <script>
-    function searchTable() {
-      var input = document.getElementById("searchInput");
-      var filter = input.value.toLowerCase();
-      var table = document.getElementById("table");
-      var rows = table.getElementsByClassName("myList");
-
-      for (var i = 0; i < rows.length; i++) {
-        var row = rows[i];
-        var rowData = row.innerText.toLowerCase();
-
-        if (rowData.includes(filter)) {
-          row.style.display = "";
-        } else {
-          row.style.display = "none";
-        }
-      }
-    }
-  </script>
 </body>
 </html>

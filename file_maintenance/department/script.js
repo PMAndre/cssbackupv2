@@ -75,58 +75,82 @@ arrow.addEventListener("click", function() {
   arrow.classList.toggle("rotated");
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // filtering search box
-/*
-function myFunction() {
-    // Declare variables
-    var input, filter, ul, li, a, i, txtValue;
-    input = document.getElementById('myInput');
+function searchTable() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("searchInput");
     filter = input.value.toUpperCase();
-    ul = document.getElementById("myUL");
-    li = ul.getElementsByTagName('td');
-  
-    // Loop through all list items, and hide those who don't match the search query
-    for (i = 0; i < li.length; i++) {
-      a = li[i].getElementsByTagName("a")[0];
-      txtValue = a.textContent || a.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        li[i].style.display = "";
-      } else {
-        li[i].style.display = "none";
-      }
-    }
-  }
-  */
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
 
-  // Implementation in ES6
-function pagination(c, m) {
-    var current = c,
-        last = m,
-        delta = 2,
-        left = current - delta,
-        right = current + delta + 1,
-        range = [],
-        rangeWithDots = [],
-        l;
-
-    for (let i = 1; i <= last; i++) {
-        if (i == 1 || i == last || i >= left && i < right) {
-            range.push(i);
-        }
-    }
-
-    for (let i of range) {
-        if (l) {
-            if (i - l === 2) {
-                rangeWithDots.push(l + 1);
-            } else if (i - l !== 1) {
-                rangeWithDots.push('...');
+    for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td");
+        var hasMatch = false; // Flag to check if there's a match in any cell of the row
+        for (var j = 0; j < td.length; j++) {
+            var cell = td[j];
+            if (cell) {
+                txtValue = cell.textContent || cell.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    hasMatch = true;
+                    break;
+                }
             }
         }
-        rangeWithDots.push(i);
-        l = i;
+        // Toggle row visibility based on the match status
+        tr[i].style.display = hasMatch ? "" : "none";
     }
-
-    return rangeWithDots;
 }
 
+function searchTable() {
+    var input, filter, table, tr, i, deptJson;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByClassName("myList");
+
+    for (i = 0; i < tr.length; i++) {
+        deptJson = tr[i].getAttribute("data-dept");
+        var deptData = JSON.parse(deptJson);
+
+        var hasMatch = deptData.some(function (cell) {
+            return cell.toUpperCase().indexOf(filter) > -1;
+        });
+
+        // Toggle row visibility based on the match status
+        tr[i].style.display = hasMatch ? "" : "none";
+    }
+}
