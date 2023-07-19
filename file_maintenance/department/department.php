@@ -1,12 +1,7 @@
 <?php
-
-@include 'config.php';
-
 session_start();
 
-if(!isset($_SESSION['user_name'])){
-   header('location:login_form.php');
-}
+include 'dbcon.php';
 
 ?>
 <!DOCTYPE html>
@@ -78,7 +73,7 @@ if(!isset($_SESSION['user_name'])){
 
             <div class="search-box">
                 <i class="uil uil-search"></i>
-                <input type="text" placeholder="Search here...">
+                <input type="text" id="searchInput" placeholder="Search here..." oninput="searchTable()">
             </div>
             
             <!--<img src="images/profile.jpg" alt="">-->
@@ -110,86 +105,117 @@ if(!isset($_SESSION['user_name'])){
                     </ul>
                 </div>    
             </div>
-
-
-           
-
         </div>
+
 
         <div class="dash-content">
             <div class="overview">
             
-            <div class="container mt-4">
-            <div class="activity">
+                <div class="container mt-4">
+                    <div class="activity">
                     
 
-<?php include('message.php'); ?>
-<?php include('deptconfig.php'); ?>
+                        <?php include('message.php'); ?>
+                        <?php include('deptconfig.php'); ?>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h4>
-                    <i class="uil uil-briefcase-alt deplogo"></i>
-                    <span class="text">Department</span>
-                    <a href="dept-create.php" class="btn btn-primary float-end">Add Department</a>
-                </h4>
-            </div>
-            <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4>
+                                            <i class="uil uil-briefcase-alt deplogo"></i>
+                                            <span class="text">Department</span>
+                                            <a href="dept-create.php" class="btn btn-primary float-end">Add Department</a>
+                                        </h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th class="td">DEPTCODE</th>
+                                                    <th contenteditable="true" class="td">DEPTNAME</th>
+                                                    <th contenteditable="true" class="td">DEPTHEAD</th>
+                                                    <th contenteditable="true" class="td">DEPTGROUP</th>
+                                                    <th class="td"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php 
+                                                $query = "SELECT * FROM department LIMIT $entriesPerPage OFFSET $offset";
+                                                $query_run = mysqli_query($conn, $query);
 
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th class = "td">DEPTCODE</th>
-                            <th class = "td">DEPTNAME</th>
-                            <th class = "td">DEPTHEAD</th>
-                            <th class = "td">DEPTGROUP</th>
-                            <th class = "td"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php 
-                            $query = "SELECT * FROM department";
-                            $query_run = mysqli_query($conn, $query);
-
-                            if(mysqli_num_rows($query_run) > 0)
-                            {
-                                foreach($query_run as $dept)
-                                {
-                                    ?>
-                                    <tr>
-                                        <td><?= $dept['deptcode']; ?></td>
-                                        <td><?= $dept['deptname']; ?></td>
-                                        <td><?= $dept['depthead']; ?></td>
-                                        <td><?= $dept['deptgroup']; ?></td>
-                                        <td>
-                                            <a href="dept-view.php?department_id=<?= $dept['department_id']; ?>" class="btn btn-info btn-sm">View</a>
-                                            <a href="dept-edit.php?department_id=<?= $dept['department_id']; ?>" class="btn btn-success btn-sm">Edit</a>
-                                            <form action="department.php" method="POST" class="d-inline">
-                                                <button type="submit" name="delete_student" value="<?=$dept['department_id'];?>" class="btn btn-danger btn-sm">Withdraw</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    <?php
-                                }
-                            }
-                            else
-                            {
-                                echo "<h5> No Record Found </h5>";
-                            }
-                        ?>
-                        
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-    </div>
-</div>
+                                                $rowNum = ($currentPage - 1) * $entriesPerPage + 1;
+                                                while ($dept = mysqli_fetch_assoc($query_run)) {
+                                                    ?>
+                                                    <tr class="myList">
+                                                        <td><?= $dept['deptcode']; ?></td>
+                                                        <td><?= $dept['deptname']; ?></td>
+                                                        <td><?= $dept['depthead']; ?></td>
+                                                        <td><?= $dept['deptgroup']; ?></td>
+                                                        <td>
+                                                            <div class="inline">
+                                                                <a href="dept-edit.php?department_id=<?= $dept['department_id']; ?>" class="btn btn-info btn-sm">Edit</a>
+                                                            </div>
+                                                            <div class="inline">
+                                                                <form action="department.php" method="POST" class="d-inline">
+                                                                    <a href="" name="delete_student" value="<?= $dept['department_id']; ?>" class="btn btn-danger btn-sm">Withdraw</a>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                    $rowNum++;
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
 
 
 
+
+
+
+
+                                        
+                                        
+                                        
+                                        <!-- Pagination -->
+                                            <div class="pagination">
+                                                <ul class="pagination-list">
+                                                    <?php
+                                                    if ($totalPages > 1) {
+                                                        if ($currentPage > 1) {
+                                                            echo '<li><a href="department.php?page=' . ($currentPage - 1) . '">&laquo;</a></li>';
+                                                        }
+                                                        for ($i = 1; $i <= $totalPages; $i++) {
+                                                            if ($i == $currentPage) {
+                                                                echo '<li class="active"><span>' . $i . '</span></li>';
+                                                            } else {
+                                                                echo '<li><a href="department.php?page=' . $i . '">' . $i . '</a></li>';
+                                                            }
+                                                        }
+                                                        if ($currentPage < $totalPages) {
+                                                            echo '<li><a href="department.php?page=' . ($currentPage + 1) . '">&raquo;</a></li>';
+                                                        }
+                                                    }
+                                                    ?>
+                                            </ul>
+                                        </div>
+
+
+
+                                        
+
+                                        
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -197,5 +223,27 @@ if(!isset($_SESSION['user_name'])){
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
+
+
+    <!-- search box filtering java -->
+    <script>
+    function searchTable() {
+      var input = document.getElementById("searchInput");
+      var filter = input.value.toLowerCase();
+      var table = document.getElementById("table");
+      var rows = table.getElementsByClassName("myList");
+
+      for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        var rowData = row.innerText.toLowerCase();
+
+        if (rowData.includes(filter)) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      }
+    }
+  </script>
 </body>
 </html>

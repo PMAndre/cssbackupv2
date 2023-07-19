@@ -45,35 +45,37 @@ th {
     border-bottom: 1px solid #dee2e6;
     color: #000;
     font-weight: bold;
-    padding: 10px;
+    padding: 5px;
     text-align: center;
     background-color: #dedfe0;
     color: black;
 }
 
-.btn {
+.inline {
     display: inline-block;
+}
+
+.inline .btn {
     padding: 5px 12px;
     font-size: 14px;
     font-weight: 500;
     line-height: 1.5;
     text-align: center;
     white-space: nowrap;
-    vertical-align: middle;
     cursor: pointer;
     border: 1px solid transparent;
     border-radius: 4px;
     text-decoration: none;
 }
 
-.btn-info {
+.inline .btn-info {
     color: black;
     background-color: #c0e0e7;
     border-color: black;
     font-size: 12px;
 }
 
-.btn-danger {
+.inline .btn-danger {
     color: black;
     background-color: #f1817e;
     border-color: black;
@@ -81,14 +83,14 @@ th {
     margin-top: 3px;
 }
 
-.btn-success {
+.inline .btn-success {
     color: black;
     background-color: #9fd4a0;
     border-color: black;
     font-size: 12px;
 }
 
-.btn-primary {
+.inline .btn-primary {
     color: #fff;
     background-color: #007bff;
     border-color: #007bff;
@@ -122,21 +124,21 @@ body.dark .table-striped tbody tr:nth-child(even) {
     background-color: #545658;
 }
 
-body.dark .btn-info {
+body.dark .inline .btn-info {
     color: white;
     background-color: #1e8597;
     border-color: white;
     font-size: 12px;
 
 }
-body.dark .btn-success {
+body.dark .inline .btn-success {
     color: #fff;
     background-color: #27893a;
     border-color: white;
     font-size: 12px;
 }
 
-body.dark .btn-danger {
+body.dark .inline .btn-danger {
     color: #fff;
     background-color: #b4303a;
     border-color: white;
@@ -164,3 +166,110 @@ body.dark .btn-danger {
     font-weight: 500;
     margin-left: 10px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .tr {
+    /* Remove default list styling */
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+.td .tr{
+    border: 1px solid #ddd; /* Add a border to all links */
+    margin-top: -1px; /* Prevent double borders */
+    background-color: #f6f6f6; /* Grey background color */
+    padding: 12px; /* Add some padding */
+    text-decoration: none; /* Remove default text underline */
+    font-size: 18px; /* Increase the font-size */
+    color: black; /* Add a black text color */
+    display: block; /* Make it into a block element to fill the whole list */
+  }
+  
+.td tr:hover:not(.header) {
+    background-color: #eee; /* Add a hover effect to all links, except for headers */
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  .pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .pagination-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+  }
+  
+  .pagination-list li {
+    margin: 0 5px;
+  }
+  
+  .pagination-list li a {
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none;
+    background-color: #f1f1f1;
+    color: #333;
+    border-radius: 3px;
+  }
+  
+  .pagination-list li a:hover {
+    background-color: #ccc;
+  }
+  
