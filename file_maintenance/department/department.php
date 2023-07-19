@@ -37,7 +37,7 @@ if(!isset($_SESSION['user_name'])){
         <div class="sue">
             <ul>
                 <li class="main-link">
-                    <a href="/cssbackup/user_panel.php" class="link-text">
+                    <a href="/cssbackupv2/user_panel.php" class="link-text">
                         <i class="uil uil-estate"></i>Dashboard</a>
                 </li>
                 <li class="main-link">
@@ -45,10 +45,10 @@ if(!isset($_SESSION['user_name'])){
                     File Maintenance
                     <i class="uil uil-arrow-right rotate"></i>
                     <ul class="sublink"></li>
-                        <li><a href="file_maintenance/cadets/cadets.php">Cadets</a></li>
-                        <li><a href="/file_maintenance/department/department.php">Department</a></li>
-                        <li><a href="/cssbackup/file_maintenance/faculty/faculty.php">Faculty</a></li>
-                        <li><a href="/file_maintenance/course/course.php">Course</a></li>
+                        <li><a href="/cssbackupv2/file_maintenance/cadets/cadet.php">Cadets</a></li>
+                        <li><a href="/cssbackupv2/file_maintenance/department/department.php">Department</a></li>
+                        <li><a href="/cssbackupv2/file_maintenance/faculty/faculty.php">Faculty</a></li>
+                        <li><a href="/cssbackupv2/file_maintenance/course/course.php">Course</a></li>
                     </ul>
                 </li>
                 <li class="main-link">
@@ -72,7 +72,9 @@ if(!isset($_SESSION['user_name'])){
 
     <section class="dashboard">
         <div class="top">
-            <i class="uil uil-bars sidebar-toggle"></i>
+            <button>
+                <i class="uil uil-bars sidebar-toggle"></i>
+            </button>
 
             <div class="search-box">
                 <i class="uil uil-search"></i>

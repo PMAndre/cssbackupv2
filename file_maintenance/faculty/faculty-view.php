@@ -45,6 +45,7 @@ require 'dbcon.php';
                                             <?=$student['serialnr'];?>
                                         </p>
                                     </div>
+                                    
                                     <div class="mb-3">
                                         <label>LNAME</label>
                                         <p class="form-control">
@@ -113,18 +114,24 @@ require 'dbcon.php';
                                     </div>
                                     
                                     <label>PIX</label>
-                                    <?php
-                                    $sql = "SELECT * FROM faculty ORDER BY faculty_id DESC";
-                                        $res = mysqli_query($conn,  $sql);
-
-                                        if (mysqli_num_rows($res) > 0) {
-                                            while ($images = mysqli_fetch_assoc($res)) {  ?>
-                                            
-                                            <div class="mb-3">
-                                                <img src="uploads/<?=$student['pix']?>">
-                                            </div>
-                                        <?php } }?>
-
+                                        <?php
+                                        if (isset($_GET['faculty_id'])) {
+                                            $faculty_id = $_GET['faculty_id'];
+                                            $result = mysqli_query($conn, "SELECT * FROM faculty WHERE faculty_id = '$faculty_id' LIMIT 1");
+                                            if (mysqli_num_rows($result) > 0) {
+                                                $row = mysqli_fetch_assoc($result);
+                                                echo "<img src='uploads/" . $row['pix'] . "' width='200' height='150'>";
+                                                // Other faculty information
+                                            } else {
+                                                echo "<p>No such entry found.</p>";
+                                            }
+                                        } else {
+                                            echo "<p>No entry ID specified.</p>";
+                                        }
+    ?>
+                                    
+        
+                                        
                                     <div class="mb-3">
                                         <label>UNAME</label>
                                         <p class="form-control">
@@ -148,6 +155,7 @@ require 'dbcon.php';
                                             <?=$student['active'];?>
                                         </p>
                                     </div>
+                                   
 
 
                                 <?php

@@ -3,7 +3,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             var sublinks = document.querySelectorAll('.sublink');
 
-
             // Add click event listener to each sublink
             sublinks.forEach(function(sublink) {
                 sublink.addEventListener('click', function(event) {
@@ -15,16 +14,13 @@
                 });
             });
 
-
             var mainLinks = document.querySelectorAll('.main-link');
-
 
             // Add click event listener to each main link
             mainLinks.forEach(function(link) {
                 link.addEventListener('click', function() {
                     // Toggle the class "show-sublinks" on the clicked main link
                     this.classList.toggle('show-sublinks');
-
 
                     // Find the sublink under the clicked main link and toggle its visibility
                     var sublink = this.querySelector('.sublink');
@@ -35,13 +31,11 @@
             });
         });
 
-
 /* darkmode, logout and side nav close open button */
 const body = document.querySelector("body"),
 modeToggle = body.querySelector(".mode-toggle");
 sidebar = body.querySelector("nav");
 sidebarToggle = body.querySelector(".sidebar-toggle");
-
 
 let getMode = localStorage.getItem("mode");
 if(getMode && getMode ==="dark"){
@@ -80,3 +74,5 @@ arrow.addEventListener("click", function() {
   // Toggle the 'rotated' class on click
   arrow.classList.toggle("rotated");
 });
+
+

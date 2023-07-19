@@ -1,7 +1,7 @@
 <?php
 $connection = "localhost";
 $username = "root";
-$password = "root";
+$password = "";
 $port = 3307;
 $db_name = "cis";
 

@@ -1,6 +1,6 @@
 <?php
 
-@include 'config.php';
+@include 'cadetconfig.php';
 
 session_start();
 
@@ -22,7 +22,7 @@ if(!isset($_SESSION['user_name'])){
 
     <!----===== Iconscout CSS ===== -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-    <title>Department</title>
+    <title>Cadets</title>
 </head>
 <body>
     <nav>
@@ -37,7 +37,7 @@ if(!isset($_SESSION['user_name'])){
         <div class="sue">
             <ul>
                 <li class="main-link">
-                    <a href="/cssbackup/user_panel.php" class="link-text">
+                    <a href="/cssbackupv2/user_panel.php" class="link-text">
                         <i class="uil uil-estate"></i>Dashboard</a>
                 </li>
                 <li class="main-link">
@@ -45,10 +45,10 @@ if(!isset($_SESSION['user_name'])){
                     File Maintenance
                     <i class="uil uil-arrow-right rotate"></i>
                     <ul class="sublink"></li>
-                        <li><a href="file_maintenance/cadets/cadets.php">Cadets</a></li>
-                        <li><a href="/cssbackup/file_maintenance/department/department.php">Department</a></li>
-                        <li><a href="/cssbackup/file_maintenance/faculty/faculty.php">Faculty</a></li>
-                        <li><a href="/cssbackup/file_maintenance/course/course.php">Course</a></li>
+                        <li><a href="/cssbackupv2/file_maintenance/cadets/cadet.php">Cadets</a></li>
+                        <li><a href="/cssbackupv2/file_maintenance/department/department.php">Department</a></li>
+                        <li><a href="/cssbackupv2/file_maintenance/faculty/faculty.php">Faculty</a></li>
+                        <li><a href="/cssbackupv2/file_maintenance/course/course.php">Course</a></li>
                     </ul>
                 </li>
                 <li class="main-link">
@@ -122,7 +122,7 @@ if(!isset($_SESSION['user_name'])){
                     
 
 <?php include('message.php'); ?>
-<?php include('deptconfig.php'); ?>
+<?php include('cadetconfig.php'); ?>
 
 <div class="row">
     <div class="col-md-12">
@@ -130,8 +130,8 @@ if(!isset($_SESSION['user_name'])){
             <div class="card-header">
                 <h4>
                     <i class="uil uil-briefcase-alt deplogo"></i>
-                    <span class="text">Department</span>
-                    <a href="dept-create.php" class="btn btn-primary float-end">Add Department</a>
+                    <span class="text">Cadet</span>
+                    <a href="cadet-create.php" class="btn btn-primary float-end">Add Department</a>
                 </h4>
             </div>
             <div class="card-body">
@@ -139,16 +139,16 @@ if(!isset($_SESSION['user_name'])){
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th class = "td">DEPTCODE</th>
-                            <th class = "td">DEPTNAME</th>
-                            <th class = "td">DEPTHEAD</th>
-                            <th class = "td">DEPTGROUP</th>
+                            <th class = "td">AFPSN</th>
+                            <th class = "td">SERVID</th>
+                            <th class = "td">MAJID</th>
+                            <th class = "td">YRGR</th>
                             <th class = "td"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php 
-                            $query = "SELECT * FROM department";
+                            $query = "SELECT * FROM cadet";
                             $query_run = mysqli_query($conn, $query);
 
                             if(mysqli_num_rows($query_run) > 0)
@@ -157,15 +157,15 @@ if(!isset($_SESSION['user_name'])){
                                 {
                                     ?>
                                     <tr>
-                                        <td><?= $dept['deptcode']; ?></td>
-                                        <td><?= $dept['deptname']; ?></td>
-                                        <td><?= $dept['depthead']; ?></td>
-                                        <td><?= $dept['deptgroup']; ?></td>
+                                        <td><?= $cadet['afpsn']; ?></td>
+                                        <td><?= $cadet['servid']; ?></td>
+                                        <td><?= $cadet['majid']; ?></td>
+                                        <td><?= $cadet['yrgr']; ?></td>
                                         <td>
-                                            <a href="dept-view.php?department_id=<?= $dept['department_id']; ?>" class="btn btn-info btn-sm">View</a>
-                                            <a href="dept-edit.php?department_id=<?= $dept['department_id']; ?>" class="btn btn-success btn-sm">Edit</a>
-                                            <form action="department.php" method="POST" class="d-inline">
-                                                <button type="submit" name="delete_student" value="<?=$dept['department_id'];?>" class="btn btn-danger btn-sm">Withdraw</button>
+                                            <a href="cadet-view.php?cadet_id=<?= $cadet['cadet_id']; ?>" class="btn btn-info btn-sm">View</a>
+                                            <a href="cadet-edit.php?cadet_id=<?= $cadet['cadet_id']; ?>" class="btn btn-success btn-sm">Edit</a>
+                                            <form action="cadet.php" method="POST" class="d-inline">
+                                                <button type="submit" name="delete_student" value="<?=$cadet['cadet_id'];?>" class="btn btn-danger btn-sm">Withdraw</button>
                                             </form>
                                         </td>
                                     </tr>

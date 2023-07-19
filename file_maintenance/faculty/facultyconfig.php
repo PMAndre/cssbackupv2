@@ -95,59 +95,139 @@ if(isset($_POST['save_student']))
         echo "<script>window.location.href = 'faculty.php';</script>";
         exit(0);
     }
+    /*
+    if (isset($_POST["save_student"])) {
+    
+        if ($_FILES["pix"]["error"] === 4) {
+        echo "<script> alert('Image does not exist.'); </script>";
+        } else {
+        $fileSize = $_FILES["pix"]["size"];
+        $tmpName = $_FILES["pix"]["tmp_name"];
+    
+        $validImageExtensions = ['jpg', 'jpeg', 'png'];
+        $imageExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+        
+        if (!in_array($imageExtension, $validImageExtensions)) {
+            echo "<script> alert('Invalid image extension.'); </script>";
+        } else if ($fileSize > 1000000) {
+            echo "<script> alert('Image size is too large.'); </script>";
+        } else {
+            $newImageName = uniqid() . '.' . $imageExtension;
+            $destination = 'uploads/' . $newImageName;
+    
+            if (move_uploaded_file($tmpName, $destination)) {
+            $query = "INSERT INTO faculty (pix) VALUES ('$newImageName')";
+            mysqli_query($conn, $query);
+            echo "<script>
+                    alert('Successfully added.');
+                    window.location.href = 'view.php';
+                    </script>";
+            } else {
+            echo "<script> alert('Failed to move the uploaded file.'); </script>";
+            }
+        }
+        }
+        if (mysqli_query($conn, $query)){
+            $_SESSION['message'] = "Student Created Successfully";
+            echo "<script>window.location.href = 'faculty.php';</script>";
+            exit(0);
+        } else {
+            $_SESSION['message'] = "Student Not Created";
+            echo "<script>window.location.href = 'faculty.php';</script>";
+            exit(0);
+        }
+    }
+    */
 }
 
 
 ?>
 
+
 <?php
-ob_start(); // Start output buffering
+// Specify the upload directory
+$uploadDir = "uploads/";
 
-if (isset($_POST['submit']) && isset($_FILES['pix'])) {
+// Check if an image was uploaded
+if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
+    // Generate a unique filename for the uploaded image
+    $fileName = uniqid() . "_" . $_FILES["image"]["name"];
+    $filePath = $uploadDir . $fileName;
 
-	// Remove the echo statements that output HTML content
-	$img_name = $_FILES['pix']['name'];
-	$img_size = $_FILES['pix']['size'];
-	$tmp_name = $_FILES['pix']['tmp_name'];
-	$error = $_FILES['pix']['error'];
+    // Move the uploaded image to the desired directory
+    if (move_uploaded_file($_FILES["image"]["tmp_name"], $filePath)) {
+        echo "Image uploaded successfully.";
 
-	if ($error === 0) {
-		if ($img_size > 1250000) {
-			$em = "Sorry, your file is too large.";
-			header("Location: index.php?error=$em");
-			exit(); // Terminate the script after redirection
-		} else {
-			$img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
-			$img_ex_lc = strtolower($img_ex);
+        // Insert the file path into the database
+        // Database connection parameters
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "cgs";
+        $port = 3306;
 
-			$allowed_exs = array("jpg", "jpeg", "png");
+        // Create a database connection
+        $conn = new mysqli($servername, $username, $password, $dbname, $port);
 
-			if (in_array($img_ex_lc, $allowed_exs)) {
-				$new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
-				$img_upload_path = 'uploads/'.$new_img_name;
-				move_uploaded_file($tmp_name, $img_upload_path);
+        // Check if the connection was successful
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
 
-				// Insert into Database
-				$sql = "INSERT INTO images(pix) 
-				        VALUES('$new_img_name')";
-				mysqli_query($conn, $sql);
-				header("Location: faculty.php");
-				exit(); // Terminate the script after redirection
-			} else {
-				$em = "You can't upload files of this type";
-				header("Location: faculty.php?error=$em");
-				exit(); // Terminate the script after redirection
-			}
-		}
-	} else {
-		$em = "Unknown error occurred!";
-		header("Location: faculty.php?error=$em");
-		exit(); // Terminate the script after redirection
-	}
-} else {
-	header("Location: faculty.php");
-	
+        // Prepare the SQL statement
+        $stmt = $conn->prepare("INSERT INTO faculty (pix) VALUES (?)");
+
+        // Bind the file path to the SQL statement
+        $stmt->bind_param("s", $filePath);
+
+        // Execute the SQL statement
+        if ($stmt->execute()) {
+            echo "File path inserted into the database.";
+
+            if (isset($_POST['save_student'])) {
+                $serialnr = mysqli_real_escape_string($conn, $_POST['serialnr']);
+                $lname = mysqli_real_escape_string($conn, $_POST['lname']);
+                $fname = mysqli_real_escape_string($conn, $_POST['fname']);
+                $mi = mysqli_real_escape_string($conn, $_POST['mi']);
+                $aname = mysqli_real_escape_string($conn, $_POST['aname']);
+                $gender = mysqli_real_escape_string($conn, $_POST['gender']);
+                $deptcode = mysqli_real_escape_string($conn, $_POST['deptcode']);
+                $igroup = mysqli_real_escape_string($conn, $_POST['igroup']);
+                $itype = mysqli_real_escape_string($conn, $_POST['itype']);
+                $rank = mysqli_real_escape_string($conn, $_POST['rank']);
+                $brofserv = mysqli_real_escape_string($conn, $_POST['brofserv']);
+                $status = mysqli_real_escape_string($conn, $_POST['status']);
+                $uname = mysqli_real_escape_string($conn, $_POST['uname']);
+                $pwd = mysqli_real_escape_string($conn, $_POST['pwd']);
+                $lvl = mysqli_real_escape_string($conn, $_POST['lvl']);
+                $active = mysqli_real_escape_string($conn, $_POST['active']);
+
+                $query = "INSERT INTO faculty (serialnr,lname,fname,mi,aname,gender,deptcode,igroup,itype,rank,brofserv,
+                status,uname,pwd,lvl,active) 
+                VALUES ('$serialnr','$lname','$fname','$mi','$aname','$gender','$deptcode','$igroup','$itype','$rank',
+                '$brofserv','$status','$uname','$pwd','$lvl','$active')";
+                
+                if (mysqli_query($conn, $query)) {
+                    $_SESSION['message'] = "Student Created Successfully";
+                    echo "<script>window.location.href = 'faculty.php';</script>";
+                    exit(0);
+                } else {
+                    $_SESSION['message'] = "Student Not Created";
+                    echo "<script>window.location.href = 'faculty.php';</script>";
+                    exit(0);
+                }
+            }
+        } else {
+            echo "Error inserting file path: " . $conn->error;
+        }
+
+        // Close the statement
+        $stmt->close();
+
+        // Close the database connection
+        $conn->close();
+    } else {
+        echo "Error uploading image.";
+    }
 }
-
-ob_end_flush(); // Flush the output buffer
 ?>

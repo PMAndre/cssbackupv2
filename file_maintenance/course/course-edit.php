@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'dbcon.php';
+require_once("dbcon.php");
 ?>
 
 <!doctype html>
@@ -13,13 +13,13 @@ require 'dbcon.php';
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <title>Student Edit</title>
+    <title>Course Edit</title>
 </head>
 <body>
   
     <div class="container mt-5">
 
-        <?php include('message.php'); ?>
+        <?php require_once("message.php"); ?>
 
         <div class="row">
             <div class="col-md-12">
@@ -35,7 +35,7 @@ require 'dbcon.php';
                         if(isset($_GET['course_id']))
                         {
                             $course_id = mysqli_real_escape_string($conn, $_GET['course_id']);
-                            $query = "SELECT * FROM course WHERE course_id='$course_id' ";
+                            $query = "SELECT * FROM courses WHERE course_id='$course_id' ";
                             $query_run = mysqli_query($conn, $query);
 
                             if(mysqli_num_rows($query_run) > 0)

@@ -1,6 +1,68 @@
 <?php
 session_start();
 require 'dbcon.php';
+
+
+ /* TEST DRIVE IMAGE*/
+ if (isset($_GET['faculty_id'])) {
+    $faculty_id = $_GET['faculty_id'];
+    $editQuery = "SELECT * FROM faculty WHERE faculty_id = '$faculty_id'";
+    $editResult = mysqli_query($conn, $editQuery);
+    $editData = mysqli_fetch_assoc($editResult);
+
+    if (isset($_POST['update_student'])) {
+        $fileSize = $_FILES['image']['size'];
+        $tmpName = $_FILES['image']['tmp_name'];
+
+        // Check if a new image was uploaded
+        if ($fileSize > 0) {
+            $fileName = $_FILES['pix'];
+            $validImageExtensions = ['jpg', 'jpeg', 'png'];
+            $imageExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+            if (!in_array($imageExtension, $validImageExtensions)) {
+                echo "<script> alert('Invalid image extension.'); </script>";
+            } else if ($fileSize > 1000000) {
+                echo "<script> alert('Image size is too large.'); </script>";
+            } else {
+                $newImageName = uniqid() . '.' . $imageExtension;
+                $destination = 'file_maintenance/faculty/uploads/' . $newImageName;
+
+                if (move_uploaded_file($tmpName, $destination)) {
+                    // Delete the old image file if needed
+                    $oldImagePath = 'file_maintenance/faculty/uploads/' . $editData['pix'];
+                    if (file_exists($oldImagePath)) {
+                        unlink($oldImagePath);
+                    }
+
+                    // Update the name and image in the database
+                    $updateQuery = "UPDATE faculty SET image = '$newImageName' WHERE faculty_id = '$faculty_id'";
+                    mysqli_query($conn, $updateQuery);
+                    echo "<script>
+                        alert('Successfully updated.');
+                        window.location.href = 'faculty.php';
+                    </script>";
+                } else {
+                    echo "<script> alert('Failed to move the uploaded file.'); </script>";
+                }
+            }
+        } else {
+            // Update only the name in the database
+            $updateQuery = "UPDATE faculty SET name = '$name' WHERE faculty_id = '$faculty_id'";
+            mysqli_query($conn, $updateQuery);
+            echo "<script>
+                alert('Successfully updated.');
+                window.location.href = 'faculty.php';
+            </script>";
+        }
+    }
+} else {
+    // Redirect back to home.php if id is not provided
+    header("Location: faculty.php");
+    exit();
+}
+
+
 ?>
 
 <!doctype html>
@@ -49,6 +111,7 @@ require 'dbcon.php';
                                         <label>SERIALNR</label>
                                         <input type="text" name="serialnr" value="<?=$student['serialnr'];?>" class="form-control">
                                     </div>
+                                    
                                     <div class="mb-3">
                                         <label>LNAME</label>
                                         <input type="text" name="lname" value="<?=$student['lname'];?>" class="form-control">
@@ -93,10 +156,19 @@ require 'dbcon.php';
                                         <label>STATUS</label>
                                         <input type="text" name="status" value="<?=$student['status'];?>" class="form-control">
                                     </div>
+                                   
                                     <div class="mb-3">
+
+                                        <label for="pix">PIX: </label>
+                                        <input type="image" name="pix" id="pix" accept=".jpg, .jpeg, .png"><br><br>
+
+
+                                       <!--
                                         <label>PIX</label>
-                                        <input type="file" name="pix" value="<?=$student['pix'];?>" class="form-control">
+                                        <input type="file" name="pix" value="<?=$student['pix'];?>" class="form-control"> 
+                                        -->
                                     </div>
+                                    
                                     <div class="mb-3">
                                         <label>UNAME</label>
                                         <input type="text" name="uname" value="<?=$student['uname'];?>" class="form-control">
@@ -113,6 +185,7 @@ require 'dbcon.php';
                                         <label>ACTIVE</label>
                                         <input type="number" name="active" value="<?=$student['active'];?>" class="form-control">
                                     </div>
+                                    
 
                                     <div class="mb-3">
                                         <button type="submit" name="update_student" class="btn btn-primary" value="submit">

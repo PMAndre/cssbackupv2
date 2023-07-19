@@ -13,7 +13,7 @@ require 'dbcon.php';
     <!-- CSS -->
     <link rel="stylesheet" href="css/style6.css">
 
-    <title>Student Create</title>
+    <title>Cadet Create</title>
 </head>
 <body>
   
@@ -26,33 +26,33 @@ require 'dbcon.php';
                 <div class="card">
                     <div class="card-header">
                         <h4>Student Add 
-                            <a href="department.php" class="btn btn-danger float-end">BACK</a>
+                            <a href="cadet.php" class="btn btn-danger float-end">BACK</a>
                         </h4>
                     </div>
 
                     
 
                     <div class="card-body">
-                        <form action="department.php" method="post">
+                        <form action="cadet.php" method="post">
 
                             <div class="mb-3">
-                                <label>DEPTCODE</label>
-                                <input type="text" name="deptcode" id="deptcode" class="form-control" style="text-transform: uppercase;">
+                                <label>AFPSN</label>
+                                <input type="text" name="afpsn" id="afpsn" class="form-control" style="text-transform: uppercase;">
                             </div>
                            
                             <div class="mb-3">
-                                <label>DEPTNAME</label>
-                                <input type="text" name="deptname" id="deptname" class="form-control">
+                                <label>SERVID</label>
+                                <input type="text" name="servid" id="servid" class="form-control">
                             </div>
 
                             
                             <div class="mb-3">
-                                <label>DEPTHEAD</label>
-                                <input type="text" name="depthead" id="depthead" class="form-control">
+                                <label>MAJID</label>
+                                <input type="text" name="majid" id="majid" class="form-control">
                             </div>
                             <div class="mb-3">
-                                <label>DEPTGROUP</label>
-                                <input type="text" name="deptgroup" id="deptgroup" class="form-control">
+                                <label>YRGR</label>
+                                <input type="text" name="yrgr" id="yrgr" class="form-control">
                             </div>
                             <div class="mb-3">
                                 <button type="submit" name="save_student" class="btn btn-primary" value="submit">Save Student</button>
