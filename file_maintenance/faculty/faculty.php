@@ -48,7 +48,7 @@ if(!isset($_SESSION['user_name'])){
                         <li><a href="/cssbackupv2/file_maintenance/cadets/cadet.php">Cadets</a></li>
                         <li><a href="/cssbackupv2/file_maintenance/department/department.php">Department</a></li>
                         <li><a href="/cssbackupv2/file_maintenance/faculty/faculty.php">Faculty</a></li>
-                        <li><a href="/cssbuckupv2/file_maintenance/course/course.php">Course</a></li>
+                        <li><a href="/cssbackupv2/file_maintenance/course/course.php">Course</a></li>
                     </ul>
                 </li>
                 <li class="main-link">

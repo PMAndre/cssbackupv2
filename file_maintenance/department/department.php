@@ -180,37 +180,6 @@ include 'dbcon.php';
 
 
 
-
-
-
-                                        
-                                        
-                                        
-                                        <!-- Pagination -->
-                                            <div class="pagination">
-                                                <ul class="pagination-list">
-                                                    <?php
-                                                    if ($totalPages > 1) {
-                                                        if ($currentPage > 1) {
-                                                            echo '<li><a href="department.php?page=' . ($currentPage - 1) . '">&laquo;</a></li>';
-                                                        }
-                                                        for ($i = 1; $i <= $totalPages; $i++) {
-                                                            if ($i == $currentPage) {
-                                                                echo '<li class="active"><span>' . $i . '</span></li>';
-                                                            } else {
-                                                                echo '<li><a href="department.php?page=' . $i . '">' . $i . '</a></li>';
-                                                            }
-                                                        }
-                                                        if ($currentPage < $totalPages) {
-                                                            echo '<li><a href="department.php?page=' . ($currentPage + 1) . '">&raquo;</a></li>';
-                                                        }
-                                                    }
-                                                    ?>
-                                            </ul>
-                                        </div>
-
-
-
                                         
 
                                         
@@ -222,6 +191,31 @@ include 'dbcon.php';
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+
+
+                    <!-- Pagination -->
+                    <div class="pagination">
+                                        <ul class="pagination-list">
+                                        <?php
+                                        if ($totalPages > 1) {
+                                        if ($currentPage > 1) {
+                                        echo '<li><a href="department.php?page=' . ($currentPage - 1) . '">&laquo;</a></li>';
+                                        }
+                                        for ($i = 1; $i <= $totalPages; $i++) {
+                                        if ($i == $currentPage) {
+                                        echo '<li class="active"><span>' . $i . '</span></li>';
+                                        } else {
+                                         echo '<li><a href="department.php?page=' . $i . '">' . $i . '</a></li>';
+                                        }
+                                        }
+                                         if ($currentPage < $totalPages) {
+                                        echo '<li><a href="department.php?page=' . ($currentPage + 1) . '">&raquo;</a></li>';
+                                 }
+                              }
+                            ?>
+                        </ul>
                     </div>
                 </div>
             </div>

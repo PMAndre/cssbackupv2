@@ -1,5 +1,5 @@
 <?php
-require_once("dbcon.php");
+require 'dbcon.php';
 ?>
 <!doctype html>
 <html lang="en">
@@ -11,7 +11,7 @@ require_once("dbcon.php");
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <title>Student View</title>
+    <title>Course View</title>
 </head>
 <body>
 
@@ -21,7 +21,7 @@ require_once("dbcon.php");
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Student View Details 
+                        <h4>Course View Details 
                             <a href="course.php" class="btn btn-danger float-end">BACK</a>
                         </h4>
                     </div>
@@ -93,7 +93,6 @@ require_once("dbcon.php");
                                             <?=$student['ctypeold'];?>
                                         </p>
                                     </div>
-                                    
 
                                 <?php
                             }

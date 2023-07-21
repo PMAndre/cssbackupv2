@@ -1,9 +1,10 @@
 <?php
+
 $connection = "localhost";
 $username = "root";
 $password = "";
-$port = 3307;
-$db_name = "cis";
+$port = 3306;
+$db_name = "cgs";
 
 $conn = mysqli_init();
 mysqli_options($conn, MYSQLI_OPT_LOCAL_INFILE, true);

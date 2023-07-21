@@ -89,68 +89,98 @@ arrow.addEventListener("click", function() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // filtering search box
+/*
 function searchTable() {
-    var input, filter, table, tr, td, i, txtValue;
-    input = document.getElementById("searchInput");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("myTable");
-    tr = table.getElementsByTagName("tr");
+    var input = document.getElementById("searchInput").value.toUpperCase();
+    var table = document.getElementById("tableBody");
+    var rows = table.getElementsByTagName("tr");
+    var found = false;
 
-    for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td");
-        var hasMatch = false; // Flag to check if there's a match in any cell of the row
-        for (var j = 0; j < td.length; j++) {
-            var cell = td[j];
-            if (cell) {
-                txtValue = cell.textContent || cell.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    hasMatch = true;
-                    break;
-                }
+
+    for (var i = 0; i < rows.length; i++) {
+        var cells = rows[i].getElementsByTagName("td");
+        var shouldShowRow = false;
+
+
+        for (var j = 0; j < cells.length; j++) {
+            var cellText = cells[j].innerText.toUpperCase();
+            if (cellText.indexOf(input) > -1) {
+                shouldShowRow = true;
+                break;
             }
         }
-        // Toggle row visibility based on the match status
-        tr[i].style.display = hasMatch ? "" : "none";
+
+
+        if (shouldShowRow) {
+            rows[i].style.display = "";
+            found = true;
+        } else {
+            rows[i].style.display = "none";
+        }
+    }
+
+
+    // If no rows match the search, display a message
+    var noResultsRow = table.querySelector("#noResultsRow");
+    if (!found) {
+        if (!noResultsRow) {
+            noResultsRow = document.createElement("tr");
+            noResultsRow.id = "noResultsRow";
+            noResultsRow.innerHTML = "<td colspan='5'>No results found</td>";
+            table.appendChild(noResultsRow);
+        } else {
+            noResultsRow.style.display = "";
+        }
+    } else if (noResultsRow) {
+        noResultsRow.style.display = "none";
     }
 }
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function searchTable() {
-    var input, filter, table, tr, i, deptJson;
-    input = document.getElementById("searchInput");
-    filter = input.value.toUpperCase();
-    table = document.getElementById("myTable");
-    tr = table.getElementsByClassName("myList");
+    var input = document.getElementById("searchInput").value.toUpperCase();
+   
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "search.php?input=" + input, true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          var tableBody = document.getElementById("tableBody");
+          tableBody.innerHTML = xhr.responseText;
+        } else {
+          console.log("Request failed. Status: " + xhr.status);
+        }
+      }
+    };
+    xhr.send();
+  }
 
-    for (i = 0; i < tr.length; i++) {
-        deptJson = tr[i].getAttribute("data-dept");
-        var deptData = JSON.parse(deptJson);
 
-        var hasMatch = deptData.some(function (cell) {
-            return cell.toUpperCase().indexOf(filter) > -1;
-        });
-
-        // Toggle row visibility based on the match status
-        tr[i].style.display = hasMatch ? "" : "none";
-    }
-}

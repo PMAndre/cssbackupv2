@@ -71,9 +71,11 @@ if(isset($_POST['save_student']))
 
 //PAGINATION//
 
+
 if (!isset($_SESSION['user_name'])) {
     header('location:login_form.php');
 }
+
 
 // Determine the total number of entries in the "department" table
 $countQuery = "SELECT COUNT(*) as total FROM department";
@@ -81,9 +83,11 @@ $countResult = mysqli_query($conn, $countQuery);
 $countRow = mysqli_fetch_assoc($countResult);
 $totalEntries = $countRow['total'];
 
+
 // Define the number of entries to display per page and calculate the total number of pages
-$entriesPerPage = 10;
+$entriesPerPage = 15;
 $totalPages = ceil($totalEntries / $entriesPerPage);
+
 
 // Get the current page number from the query string or set it to the first page if not provided
 if (isset($_GET['page'])) {
@@ -92,13 +96,17 @@ if (isset($_GET['page'])) {
     $currentPage = 1;
 }
 
+
 // Calculate the offset for the database query based on the current page and number of entries per page
 $offset = ($currentPage - 1) * $entriesPerPage;
+
 
 // Modify your existing query to include the LIMIT and OFFSET clauses
 $query = "SELECT * FROM department LIMIT $entriesPerPage OFFSET $offset";
 $query_run = mysqli_query($conn, $query);
 
+
 // ...
+
 
 ?>

@@ -1,12 +1,7 @@
 <?php
-
-@include 'config.php';
-
 session_start();
 
-if(!isset($_SESSION['user_name'])){
-   header('location:login_form.php');
-}
+include 'dbcon.php';
 
 ?>
 <!DOCTYPE html>
@@ -18,11 +13,11 @@ if(!isset($_SESSION['user_name'])){
     
     <!----======== CSS ======== -->
     <link rel="stylesheet" href="css/style1.css">
-    <link rel="stylesheet" href="css/style4.css">
+    <link rel="stylesheet" href="css/style5.css">
 
     <!----===== Iconscout CSS ===== -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-    <title>CIS Admin Dashboard</title>
+    <title>Course</title>
 </head>
 <body>
     <nav>
@@ -37,7 +32,7 @@ if(!isset($_SESSION['user_name'])){
         <div class="sue">
             <ul>
                 <li class="main-link">
-                    <a href="/cssbackup/user_panel.php" class="link-text">
+                    <a href="/cssbackupv2/user_panel.php" class="link-text">
                         <i class="uil uil-estate"></i>Dashboard</a>
                 </li>
                 <li class="main-link">
@@ -45,10 +40,10 @@ if(!isset($_SESSION['user_name'])){
                     File Maintenance
                     <i class="uil uil-arrow-right rotate"></i>
                     <ul class="sublink"></li>
-                        <li><a href="cadets/cadets.php">Cadets</a></li>
-                        <li><a href="department/department.php">Department</a></li>
-                        <li><a href="faculty/faculty.php">Faculty</a></li>
-                        <li><a href="course/course.php">Course</a></li>
+                        <li><a href="/cssbackupv2/file_maintenance/cadets/cadet.php">Cadets</a></li>
+                        <li><a href="/cssbackupv2/file_maintenance/department/department.php">Department</a></li>
+                        <li><a href="/cssbackupv2/file_maintenance/faculty/faculty.php">Faculty</a></li>
+                        <li><a href="/cssbackupv2/file_maintenance/course/course.php">Course</a></li>
                     </ul>
                 </li>
                 <li class="main-link">
@@ -72,12 +67,17 @@ if(!isset($_SESSION['user_name'])){
 
     <section class="dashboard">
         <div class="top">
-            <i class="uil uil-bars sidebar-toggle"></i>
+            <button>
+                <i class="uil uil-bars sidebar-toggle"></i>
+            </button>
 
             <div class="search-box">
                 <i class="uil uil-search"></i>
-                <input type="text" placeholder="Search here...">
+                <input type="text" id="myInput" placeholder="Search here..." class="form-control">
             </div>
+
+            <!----===== Iconscout CSS ===== -->
+
             
             <!--<img src="images/profile.jpg" alt="">-->
             <div class="norms">
@@ -108,96 +108,139 @@ if(!isset($_SESSION['user_name'])){
                     </ul>
                 </div>    
             </div>
-
-
-           
-
         </div>
+
 
         <div class="dash-content">
             <div class="overview">
             
-            <div class="container mt-4">
-            <div class="activity">
+                <div class="container mt-4">
+                    <div class="activity">
                     
 
-<?php include('message.php'); ?>
-<?php include('courseconfig.php'); ?>
+                        <?php include('message.php'); ?>
+                        <?php include('courseconfig.php'); ?>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h4>
-                    <i class="uil uil-briefcase-alt deplogo"></i>
-                    <span class="text">Course</span>
-                    <a href="course/course-create.php" class="btn btn-primary float-end">Add Course</a>
-                </h4>
-            </div>
-            <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4>
+                                            <i class="uil uil-book-open deplogo"></i>
+                                            <span class="text">Course</span>
+                                            <a href="course-create.php" class="btn btn-primary float-end">Add Course</a>
+                                        </h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th class="td">CCODE</th>
+                                                <th contenteditable="true" class="td">CEQUI</th>
+                                                <th contenteditable="true" class="td">CNAME</th>
+                                                <th contenteditable="true" class="td">CDESC</th>
+                                                <th contenteditable="true" class="td">CUNITS</th>
+                                                <th contenteditable="true" class="td">CTYPE</th>
+                                                <th contenteditable="true" class="td">CADD</th>
+                                                <th contenteditable="true" class="td">CADD2</th>
+                                                <th contenteditable="true" class="td">CTYPEOLD</th>
+                                                <th class="td"></th>
+                                            </tr>
+                                        </thead>
+                                         <tbody id="tableBody">
+                                            <?php 
+                                                $query = "SELECT * FROM courses LIMIT $entriesPerPage OFFSET $offset";
+                                                $query_run = mysqli_query($conn, $query);
 
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th class = "td">CCODE</th>
-                            <th class = "td">CEQUI</th>
-                            <th class = "td">CNAME</th>
-                            <th class = "td">CDESC</th>
-                            <th class = "td">CUNITS</th>
-                            <th class = "td">CTYPE</th>
-                            <th class = "td">CADD</th>
-                            <th class = "td">CADD2</th>
-                            <th class = "td">CTYPEOLD</th>
-                            <th class = "td"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php 
-                            $query = "SELECT * FROM courses";
-                            $query_run = mysqli_query($conn, $query);
-
-                            if(mysqli_num_rows($query_run) > 0)
-                            {
-                                foreach($query_run as $course)
-                                {
-                                    ?>
-                                    <tr>
-                                        <td><?= $course['ccode']; ?></td>
-                                        <td><?= $course['cequi']; ?></td>
-                                        <td><?= $course['cname']; ?></td>
-                                        <td><?= $course['cdesc']; ?></td>
-                                        <td><?= $course['cunits']; ?></td>
-                                        <td><?= $course['ctype']; ?></td>
-                                        <td><?= $course['cadd']; ?></td>
-                                        <td><?= $course['cadd2']; ?></td>
-                                        <td><?= $course['ctypeold']; ?></td>
-                                        <td>
-                                            <a href="course-view.php?course_id=<?= $course['course_id']; ?>" class="btn btn-info btn-sm">View</a>
-                                            <a href="course-edit.php?course_id=<?= $course['course_id']; ?>" class="btn btn-success btn-sm">Edit</a>
-                                            <form action="course.php" method="POST" class="d-inline">
-                                                <button type="submit" name="delete_student" value="<?=$course['course_id'];?>" class="btn btn-danger btn-sm">Withdraw</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    <?php
-                                }
-                            }
-                            else
-                            {
-                                echo "<h5> No Record Found </h5>";
-                            }
-                        ?>
-                        
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-    </div>
-</div>
+                                                $rowNum = ($currentPage - 1) * $entriesPerPage + 1;
+                                                while ($course = mysqli_fetch_assoc($query_run)) {
+                                                    $ccode = $course['ccode'];
+                                                    $cequi = $course['cequi'];
+                                                    $cname = $course['cname'];
+                                                    $cdesc = $course['cdesc'];
+                                                    $cunits = $course['cunits'];
+                                                    $ctype = $course['ctype'];
+                                                    $cadd = $course['cadd'];
+                                                    $cadd2 = $course['cadd2'];
+                                                    $ctypeold = $course['ctypeold'];
+                                                
+                                                    // Convert the PHP variables to JSON format and encode them
+                                                    $courseJson = json_encode([$ccode, $cequi, $cname, $cdesc, $cunits, $ctype, $cadd, $cadd2, $ctypeold,]);
+                                                    ?>
+                                                    <tr class="myList">
+                                                        <td><?= $course['ccode']; ?></td>
+                                                        <td><?= $course['cequi']; ?></td>
+                                                        <td><?= $course['cname']; ?></td>
+                                                        <td><?= $course['cdesc']; ?></td>
+                                                        <td><?= $course['cunits']; ?></td>
+                                                        <td><?= $course['ctype']; ?></td>
+                                                        <td><?= $course['cadd']; ?></td>
+                                                        <td><?= $course['cadd2']; ?></td>
+                                                        <td><?= $course['ctypeold']; ?></td>
+                                                        <td>
+                                                            <div class="inline">
+                                                                <a href="course-edit.php?course_id=<?= $course['course_id']; ?>" class="btn btn-info btn-sm">Edit</a>
+                                                            </div>
+                                                            <div class="inline">
+                                                                <form action="course.php" method="POST" class="d-inline">
+                                                                    <button type="submit" name="delete_student" value="<?= $course['course_id']; ?>" class="btn btn-danger btn-sm">Withdraw</a>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                    $rowNum++;
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
 
 
 
+
+
+
+
+                                        
+                                        
+                                        
+                                        <!-- Pagination -->
+                                            <div class="pagination">
+                                                <ul class="pagination-list">
+                                                    <?php
+                                                    if ($totalPages > 1) {
+                                                        if ($currentPage > 1) {
+                                                            echo '<li><a href="course.php?page=' . ($currentPage - 1) . '">&laquo;</a></li>';
+                                                        }
+                                                        for ($i = 1; $i <= $totalPages; $i++) {
+                                                            if ($i == $currentPage) {
+                                                                echo '<li class="active"><span>' . $i . '</span></li>';
+                                                            } else {
+                                                                echo '<li><a href="course.php?page=' . $i . '">' . $i . '</a></li>';
+                                                            }
+                                                        }
+                                                        if ($currentPage < $totalPages) {
+                                                            echo '<li><a href="course.php?page=' . ($currentPage + 1) . '">&raquo;</a></li>';
+                                                        }
+                                                    }
+                                                    ?>
+                                            </ul>
+                                        </div>
+
+
+
+                                        
+
+                                        
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

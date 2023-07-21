@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once("dbcon.php");
+require 'dbcon.php';
 ?>
 
 <!doctype html>
@@ -10,23 +10,22 @@ require_once("dbcon.php");
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style6.css">
 
-    <title>Create Course</title>
+    <title>Course Create</title>
 </head>
 <body>
   
     <div class="container mt-5">
 
-       
-        <?php require_once("message.php"); ?>
+        <?php include('message.php'); ?>
 
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Add Course 
+                        <h4>Add Course
                             <a href="course.php" class="btn btn-danger float-end">BACK</a>
                         </h4>
                     </div>
@@ -38,13 +37,15 @@ require_once("dbcon.php");
 
                             <div class="mb-3">
                                 <label>CCODE</label>
-                                <input type="text" name="ccode" id="ccode" class="form-control">
+                                <input type="text" name="ccode" id="ccode" class="form-control" style="text-transform: uppercase;">
                             </div>
                            
                             <div class="mb-3">
                                 <label>CEQUI</label>
                                 <input type="text" name="cequi" id="cequi" class="form-control">
                             </div>
+
+                            
                             <div class="mb-3">
                                 <label>CNAME</label>
                                 <input type="text" name="cname" id="cname" class="form-control">
@@ -73,11 +74,11 @@ require_once("dbcon.php");
                                 <label>CTYPEOLD</label>
                                 <input type="text" name="ctypeold" id="ctypeold" class="form-control">
                             </div>
-                            
                             <div class="mb-3">
                                 <button type="submit" name="save_student" class="btn btn-primary" value="submit">Save Course</button>
                             </div>
 
+                            
                         </form>
 
                         
