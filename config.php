@@ -2,7 +2,7 @@
 <?php
 $connection = "localhost";
 $username = "root";
-$password = "";
+$password = "root";
 $port = 3306;
 $db_name = "cgs";
 

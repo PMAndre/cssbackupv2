@@ -102,9 +102,53 @@ if(isset($_POST['save_student']))
     $servid = mysqli_real_escape_string($conn, $_POST['servid']);
     $majid = mysqli_real_escape_string($conn, $_POST['majid']);
     $yrgr = mysqli_real_escape_string($conn, $_POST['yrgr']);
+    $oyrgr = mysqli_real_escape_string($conn, $_POST['oyrgr']);
+    $lname = mysqli_real_escape_string($conn, $_POST['lname']);
+    $fname = mysqli_real_escape_string($conn, $_POST['fname']);
+    $aname = mysqli_real_escape_string($conn, $_POST['aname']);
+    $mname = mysqli_real_escape_string($conn, $_POST['mname']);
+    $initls = mysqli_real_escape_string($conn, $_POST['initls']);
+    $gender = mysqli_real_escape_string($conn, $_POST['gender']);
+    $bdate = mysqli_real_escape_string($conn, $_POST['bdate']);
+    $bplace = mysqli_real_escape_string($conn, $_POST['bplace']);
+    $papa = mysqli_real_escape_string($conn, $_POST['papa']);
+    //$padead = mysqli_real_escape_string($conn, $_POST['padead']);
+    $mama = mysqli_real_escape_string($conn, $_POST['mama']);
+    //$madead = mysqli_real_escape_string($conn, $_POST['madead']);
+    $guardian = mysqli_real_escape_string($conn, $_POST['guardian']);
+    $addr1 = mysqli_real_escape_string($conn, $_POST['addr1']);
+    $add2 = mysqli_real_escape_string($conn, $_POST['add2']);
+    $zipcode = mysqli_real_escape_string($conn, $_POST['zipcode']);
+    $region = mysqli_real_escape_string($conn, $_POST['region']);
+    $highsch = mysqli_real_escape_string($conn, $_POST['highsch']);
+    $hight = mysqli_real_escape_string($conn, $_POST['height']);
+    $eescore = mysqli_real_escape_string($conn, $_POST['eescore']);
+    $math = mysqli_real_escape_string($conn, $_POST['math']);
+    $engl = mysqli_real_escape_string($conn, $_POST['engl']);
+    $spma = mysqli_real_escape_string($conn, $_POST['spma']);
+    $coy = mysqli_real_escape_string($conn, $_POST['coy']);
+    $battalion = mysqli_real_escape_string($conn, $_POST['battalion']);
+    $battallion2 = mysqli_real_escape_string($conn, $_POST['battallion2']);
+    $cstat = mysqli_real_escape_string($conn, $_POST['cstat']);
+    $remarks = mysqli_real_escape_string($conn, $_POST['remarks']);
+    $pix = mysqli_real_escape_string($conn, $_POST['pix']);
+    $dateadmitted = mysqli_real_escape_string($conn, $_POST['dateadmitted']);
+    $dategrad = mysqli_real_escape_string($conn, $_POST['dategrad']);
+    $datecomm = mysqli_real_escape_string($conn, $_POST['datecomm']);
+    $degree = mysqli_real_escape_string($conn, $_POST['degree']);
+    $majorin = mysqli_real_escape_string($conn, $_POST['majorin']);
+    $graduate = mysqli_real_escape_string($conn, $_POST['graduate']);
+    $latinaward = mysqli_real_escape_string($conn, $_POST['latinaward']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $coybat = mysqli_real_escape_string($conn, $_POST['coybat']);
 
-    $query = "INSERT INTO cadet (afpsn,servid,majid,yrgr) 
-    VALUES ('$afpsn','$servid','$majid','$yrgr')";
+    $query = "INSERT INTO cadet (afpsn, servid, majid, yrgr, oyrgr, lname, fname, aname, mname, initls, gender, bdate, bplace, papa, mama, guardian, addr1, addr2, zipcode, region, highsch, height,
+    eescore, math, engl, spma, coy, battalion, battalion2, cstat, remarks, pix, dateadmitted, dategrad, datecomm, degree, majorin, graduate, latinaward, password, coybat) 
+    VALUES ('$afpsn', '$servid', '$majid', '$yrgr', '$oyrgr', '$lname', '$fname', '$aname', '$mname', '$initls', '$gender', '$bdate', '$bplace', '$papa', '$mama', '$guardian',
+    '$addr1', '$addr2', '$zipcode', '$region', '$highsch', '$height', '$eescore', '$math', '$engl', '$spma', '$coy', '$battalion', '$battalion2', '$cstat', '$remarks', '$pix', '$dateadmitted',
+    '$dategrad', '$datecomm', '$degree', '$majorin', '$graduate', '$latinaward', '$password', '$coybat')";
+
+
     
     if (mysqli_query($conn, $query)){
         $_SESSION['message'] = "Cadet Created Successfully";

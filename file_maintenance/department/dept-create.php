@@ -42,17 +42,15 @@ require 'dbcon.php';
                            
                             <div class="mb-3">
                                 <label>DEPTNAME</label>
-                                <input type="text" name="deptname" id="deptname" class="form-control">
+                                <input type="text" name="deptname" id="deptname" class="form-control" style="text-transform: uppercase;">
                             </div>
-
-                            
                             <div class="mb-3">
                                 <label>DEPTHEAD</label>
-                                <input type="text" name="depthead" id="depthead" class="form-control">
+                                <input type="text" name="depthead" id="depthead" class="form-control" style="text-transform: uppercase;">
                             </div>
                             <div class="mb-3">
                                 <label>DEPTGROUP</label>
-                                <input type="text" name="deptgroup" id="deptgroup" class="form-control">
+                                <input type="text" name="deptgroup" id="deptgroup" class="form-control" style="text-transform: uppercase;">
                             </div>
                             <div class="mb-3">
                                 <button type="submit" name="save_student" class="btn btn-primary" value="submit">Save Student</button>

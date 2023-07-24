@@ -155,10 +155,10 @@ include 'dbcon.php';
                                                     $deptJson = json_encode([$deptcode, $deptname, $depthead, $deptgroup]);
                                                     ?>
                                                     <tr class="myList">
-                                                        <td><?= $dept['deptcode']; ?></td>
-                                                        <td><?= $dept['deptname']; ?></td>
-                                                        <td><?= $dept['depthead']; ?></td>
-                                                        <td><?= $dept['deptgroup']; ?></td>
+                                                    <td><?= strtoupper($dept['deptcode']); ?></td>
+                                                    <td><?= strtoupper($dept['deptname']); ?></td>
+                                                    <td><?= strtoupper($dept['depthead']); ?></td>
+                                                    <td><?= strtoupper($dept['deptgroup']); ?></td>
                                                         <td>
                                                             <div class="inline">
                                                                 <a href="dept-edit.php?department_id=<?= $dept['department_id']; ?>" class="btn btn-info btn-sm">Edit</a>

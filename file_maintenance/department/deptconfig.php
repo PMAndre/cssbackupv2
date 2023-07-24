@@ -50,10 +50,10 @@ if(isset($_REQUEST['update_student']))
 <?php
 if(isset($_POST['save_student']))
 {
-    $deptcode = mysqli_real_escape_string($conn, $_POST['deptcode']);
-    $deptname = mysqli_real_escape_string($conn, $_POST['deptname']);
-    $depthead = mysqli_real_escape_string($conn, $_POST['depthead']);
-    $deptgroup = mysqli_real_escape_string($conn, $_POST['deptgroup']);
+    $deptcode = strtoupper($_POST['deptcode']);
+    $deptname = strtoupper($_POST['deptname']);
+    $depthead = strtoupper($_POST['depthead']);
+    $deptgroup = strtoupper($_POST['deptgroup']);
 
     $query = "INSERT INTO department (deptcode,deptname,depthead,deptgroup) 
     VALUES ('$deptcode','$deptname','$depthead','$deptgroup')";
