@@ -133,9 +133,9 @@ include 'dbcon.php';
                                         <thead>
                                             <tr>
                                                 <th class="td">DEPTCODE</th>
-                                                <th contenteditable="true" class="td">DEPTNAME</th>
-                                                <th contenteditable="true" class="td">DEPTHEAD</th>
-                                                <th contenteditable="true" class="td">DEPTGROUP</th>
+                                                <th class="td">DEPTNAME</th>
+                                                <th class="td">DEPTHEAD</th>
+                                                <th class="td">DEPTGROUP</th>
                                                 <th class="td"></th>
                                             </tr>
                                         </thead>

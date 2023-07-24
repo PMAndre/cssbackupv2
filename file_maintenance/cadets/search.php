@@ -10,18 +10,18 @@ $input = isset($_GET['input']) ? $_GET['input'] : '';
 
 
 // Initialize the query without pagination
-$query = "SELECT * FROM department";
+$query = "SELECT * FROM cadet";
 
 
 // Initialize the count query for total entries
-$countQuery = "SELECT COUNT(*) as total FROM department";
+$countQuery = "SELECT COUNT(*) as total FROM cadet";
 
 
 // Check if a search input is provided
 if (!empty($input)) {
   // Modify the query and count query to include the search condition
-  $query .= " WHERE UPPER(deptcode) LIKE '%$input%' OR UPPER(deptname) LIKE '%$input%' OR UPPER(depthead) LIKE '%$input%' OR UPPER(deptgroup) LIKE '%$input%'";
-  $countQuery .= " WHERE UPPER(deptcode) LIKE '%$input%' OR UPPER(deptname) LIKE '%$input%' OR UPPER(depthead) LIKE '%$input%' OR UPPER(deptgroup) LIKE '%$input%'";
+  $query .= " WHERE UPPER(afpsn) LIKE '%$input%' OR UPPER(servid) LIKE '%$input%' OR UPPER(majid) LIKE '%$input%' OR UPPER(yrgr) LIKE '%$input%'";
+  $countQuery .= " WHERE UPPER(afpsn) LIKE '%$input%' OR UPPER(servid) LIKE '%$input%' OR UPPER(majid) LIKE '%$input%' OR UPPER(yrgr) LIKE '%$input%'";
 }
 
 
@@ -32,7 +32,7 @@ $totalEntries = $countRow['total'];
 
 
 // Define the number of entries to display per page and calculate the total number of pages
-$entriesPerPage = 15;
+$entriesPerPage = 10;
 $totalPages = ceil($totalEntries / $entriesPerPage);
 
 
@@ -58,20 +58,20 @@ $query_run = mysqli_query($conn, $query);
 
 // Generate the updated table rows
 $tableRows = '';
-while ($dept = mysqli_fetch_assoc($query_run)) {
+while ($cadet = mysqli_fetch_assoc($query_run)) {
   // Generate the row HTML dynamically
   $tableRows .= '<tr class="myList">
-                    <td>' . $dept['deptcode'] . '</td>
-                    <td>' . $dept['deptname'] . '</td>
-                    <td>' . $dept['depthead'] . '</td>
-                    <td>' . $dept['deptgroup'] . '</td>
+                    <td>' . $cadet['afpsn'] . '</td>
+                    <td>' . $cadet['servid'] . '</td>
+                    <td>' . $cadet['majid'] . '</td>
+                    <td>' . $cadet['yrgr'] . '</td>
                     <td>
                       <div class="inline">
-                        <a href="dept-edit.php?department_id=' . $dept['department_id'] . '" class="btn btn-info btn-sm">Edit</a>
+                        <a href="cadet-edit.php?cadet_id=' . $cadet['cadet_id'] . '" class="btn btn-info btn-sm">Edit</a>
                       </div>
                       <div class="inline">
-                        <form action="department.php" method="POST" class="d-inline">
-                          <a href="" name="delete_student" value="' . $dept['department_id'] . '" class="btn btn-danger btn-sm">Withdraw</a>
+                        <form action="cadet.php" method="POST" class="d-inline">
+                          <a href="" name="delete_student" value="' . $cadet['cadet_id'] . '" class="btn btn-danger btn-sm">Withdraw</a>
                         </form>
                       </div>
                     </td>

@@ -21,46 +21,88 @@ require 'dbcon.php';
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Student View Details 
-                            <a href="department.php" class="btn btn-danger float-end">BACK</a>
+                        <h4>Cadet View Details 
+                            <a href="cadet.php" class="btn btn-danger float-end">BACK</a>
                         </h4>
                     </div>
                     <div class="card-body">
 
                         <?php
-                        if(isset($_GET['department_id']))
+                        if(isset($_GET['cadet_id']))
                         {
-                            $department_id = mysqli_real_escape_string($conn, $_GET['department_id']);
-                            $query = "SELECT * FROM department WHERE department_id='$department_id' ";
+                            $cadet_id = mysqli_real_escape_string($conn, $_GET['cadet_id']);
+                            $query = "SELECT * FROM cadet WHERE cadet_id='$cadet_id' ";
                             $query_run = mysqli_query($conn, $query);
 
                             if(mysqli_num_rows($query_run) > 0)
                             {
-                                $student = mysqli_fetch_array($query_run);
+                                $cadet = mysqli_fetch_array($query_run);
                                 ?>
                                 
                                     <div class="mb-3">
-                                        <label>DEPTCODE</label>
+                                        <label>AFPSN</label>
                                         <p class="form-control">
-                                            <?=$student['deptcode'];?>
+                                            <?=$cadet['afpsn'];?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
-                                        <label>DEPTNAME</label>
+                                        <label>SERVID</label>
                                         <p class="form-control">
-                                            <?=$student['deptname'];?>
+                                            <?=$cadet['servid'];?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
-                                        <label>DEPTHEAD</label>
+                                        <label>MAJID</label>
                                         <p class="form-control">
-                                            <?=$student['depthead'];?>
+                                            <?=$cadet['majid'];?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
-                                        <label>DEPTGROUP</label>
+                                        <label>YRGR</label>
                                         <p class="form-control">
-                                            <?=$student['deptgroup'];?>
+                                            <?=$cadet['yrgr'];?>
+                                        </p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>OYRGR</label>
+                                        <p class="form-control">
+                                            <?=$cadet['oyrgr'];?>
+                                        </p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>LNAME</label>
+                                        <p class="form-control">
+                                            <?=$cadet['lname'];?>
+                                        </p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>FNAME</label>
+                                        <p class="form-control">
+                                            <?=$cadet['fname'];?>
+                                        </p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>ANAME</label>
+                                        <p class="form-control">
+                                            <?=$cadet['aname'];?>
+                                        </p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>MNAME</label>
+                                        <p class="form-control">
+                                            <?=$cadet['mname'];?>
+                                        </p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>INITLS</label>
+                                        <p class="form-control">
+                                            <?=$cadet['initls'];?>
+                                        </p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>GENDER</label>
+                                        <p class="form-control">
+                                            <?=$cadet['gender'];?>
                                         </p>
                                     </div>
 

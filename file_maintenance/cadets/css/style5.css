@@ -45,35 +45,37 @@ th {
     border-bottom: 1px solid #dee2e6;
     color: #000;
     font-weight: bold;
-    padding: 10px;
+    padding: 5px;
     text-align: center;
     background-color: #dedfe0;
     color: black;
 }
 
-.btn {
+.inline {
     display: inline-block;
+}
+
+.inline .btn {
     padding: 5px 12px;
     font-size: 14px;
     font-weight: 500;
     line-height: 1.5;
     text-align: center;
     white-space: nowrap;
-    vertical-align: middle;
     cursor: pointer;
     border: 1px solid transparent;
     border-radius: 4px;
     text-decoration: none;
 }
 
-.btn-info {
+.inline .btn-info {
     color: black;
     background-color: #c0e0e7;
     border-color: black;
     font-size: 12px;
 }
 
-.btn-danger {
+.inline .btn-danger {
     color: black;
     background-color: #f1817e;
     border-color: black;
@@ -81,14 +83,14 @@ th {
     margin-top: 3px;
 }
 
-.btn-success {
+.inline .btn-success {
     color: black;
     background-color: #9fd4a0;
     border-color: black;
     font-size: 12px;
 }
 
-.btn-primary {
+.inline .btn-primary {
     color: #fff;
     background-color: #007bff;
     border-color: #007bff;
@@ -122,21 +124,21 @@ body.dark .table-striped tbody tr:nth-child(even) {
     background-color: #545658;
 }
 
-body.dark .btn-info {
+body.dark .inline .btn-info {
     color: white;
     background-color: #1e8597;
     border-color: white;
     font-size: 12px;
 
 }
-body.dark .btn-success {
+body.dark .inline .btn-success {
     color: #fff;
     background-color: #27893a;
     border-color: white;
     font-size: 12px;
 }
 
-body.dark .btn-danger {
+body.dark .inline .btn-danger {
     color: #fff;
     background-color: #b4303a;
     border-color: white;
@@ -164,3 +166,59 @@ body.dark .btn-danger {
     font-weight: 500;
     margin-left: 10px;
 }
+
+.clickable-td {
+    cursor: pointer;
+}
+
+.clickable-td:hover {
+    background-color: #D6D5ED;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  .pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .pagination-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+  }
+  
+  .pagination-list li {
+    margin: 0 5px;
+  }
+  
+  
+  
+  .pagination-list li a:hover {
+    background-color: #ccc;
+  }
+  

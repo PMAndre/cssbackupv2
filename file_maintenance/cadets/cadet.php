@@ -1,12 +1,7 @@
 <?php
-
-@include 'cadetconfig.php';
-
 session_start();
 
-if(!isset($_SESSION['user_name'])){
-   header('location:login_form.php');
-}
+include 'dbcon.php';
 
 ?>
 <!DOCTYPE html>
@@ -22,7 +17,7 @@ if(!isset($_SESSION['user_name'])){
 
     <!----===== Iconscout CSS ===== -->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-    <title>Cadets</title>
+    <title>Cadet</title>
 </head>
 <body>
     <nav>
@@ -72,11 +67,13 @@ if(!isset($_SESSION['user_name'])){
 
     <section class="dashboard">
         <div class="top">
-            <i class="uil uil-bars sidebar-toggle"></i>
+            <button>
+                <i class="uil uil-bars sidebar-toggle"></i>
+            </button>
 
             <div class="search-box">
                 <i class="uil uil-search"></i>
-                <input type="text" placeholder="Search here...">
+                <input type="text" id="searchInput" placeholder="Search here..." oninput="searchTable()" style="text-transform: uppercase;">
             </div>
             
             <!--<img src="images/profile.jpg" alt="">-->
@@ -108,86 +105,127 @@ if(!isset($_SESSION['user_name'])){
                     </ul>
                 </div>    
             </div>
-
-
-           
-
         </div>
+
 
         <div class="dash-content">
             <div class="overview">
             
-            <div class="container mt-4">
-            <div class="activity">
+                <div class="container mt-4">
+                    <div class="activity">
                     
 
-<?php include('message.php'); ?>
-<?php include('cadetconfig.php'); ?>
+                        <?php include('message.php'); ?>
+                        <?php include('cadetconfig.php'); ?>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h4>
-                    <i class="uil uil-briefcase-alt deplogo"></i>
-                    <span class="text">Cadet</span>
-                    <a href="cadet-create.php" class="btn btn-primary float-end">Add Department</a>
-                </h4>
-            </div>
-            <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4>
+                                            <i class="uil uil-briefcase-alt deplogo"></i>
+                                            <span class="text">Cadet</span>
+                                            <a href="cadet-create.php" class="btn btn-primary float-end">Add Cadet</a>
+                                        </h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th class="td">AFPSN</th>
+                                                <th class="td">SERVID</th>
+                                                <th class="td">MAJID</th>
+                                                <th class="td">YRGR</th>
+                                                <th class="td"></th>
+                                            </tr>
+                                        </thead>
+                                         <tbody id="tableBody">
+                                            <?php 
+                                                $query = "SELECT * FROM cadet LIMIT $entriesPerPage OFFSET $offset";
+                                                $query_run = mysqli_query($conn, $query);
 
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th class = "td">AFPSN</th>
-                            <th class = "td">SERVID</th>
-                            <th class = "td">MAJID</th>
-                            <th class = "td">YRGR</th>
-                            <th class = "td"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php 
-                            $query = "SELECT * FROM cadet";
-                            $query_run = mysqli_query($conn, $query);
+                                                $rowNum = ($currentPage - 1) * $entriesPerPage + 1;
+                                                while ($cadet = mysqli_fetch_assoc($query_run)) {
+                                                    $afpsn = $cadet['afpsn'];
+                                                    $servid = $cadet['servid'];
+                                                    $majid = $cadet['majid'];
+                                                    $yrgr = $cadet['yrgr'];
+                                                
+                                                    // Convert the PHP variables to JSON format and encode them
+                                                    $cadetJson = json_encode([$afpsn, $servid, $majid, $yrgr]);
+                                                    ?>
+                                                    <tr class="myList">
+                                                        <td class="clickable-td" data-cadet-id="<?= $cadet['cadet_id']; ?>">
+                                                            <?= strtoupper($cadet['afpsn']); ?>
+                                                        </td>
+                                                        <td class="clickable-td" data-cadet-id="<?= $cadet['cadet_id']; ?>">
+                                                            <?= strtoupper($cadet['servid']); ?>
+                                                        </td>
+                                                        <td class="clickable-td" data-cadet-id="<?= $cadet['cadet_id']; ?>">
+                                                            <?= strtoupper($cadet['majid']); ?>
+                                                        </td>
+                                                        <td class="clickable-td" data-cadet-id="<?= $cadet['cadet_id']; ?>">
+                                                            <?= strtoupper($cadet['yrgr']); ?>
+                                                        </td>
 
-                            if(mysqli_num_rows($query_run) > 0)
-                            {
-                                foreach($query_run as $cadet)
-                                {
-                                    ?>
-                                    <tr>
-                                        <td><?= $cadet['afpsn']; ?></td>
-                                        <td><?= $cadet['servid']; ?></td>
-                                        <td><?= $cadet['majid']; ?></td>
-                                        <td><?= $cadet['yrgr']; ?></td>
-                                        <td>
-                                            <a href="cadet-view.php?cadet_id=<?= $cadet['cadet_id']; ?>" class="btn btn-info btn-sm">View</a>
-                                            <a href="cadet-edit.php?cadet_id=<?= $cadet['cadet_id']; ?>" class="btn btn-success btn-sm">Edit</a>
-                                            <form action="cadet.php" method="POST" class="d-inline">
-                                                <button type="submit" name="delete_student" value="<?=$cadet['cadet_id'];?>" class="btn btn-danger btn-sm">Withdraw</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    <?php
-                                }
-                            }
-                            else
-                            {
-                                echo "<h5> No Record Found </h5>";
-                            }
-                        ?>
-                        
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-    </div>
-</div>
+                                                        <td>
+                                                            <div class="inline">
+                                                                <a href="cadet-edit.php?cadet_id=<?= $cadet['cadet_id']; ?>" class="btn btn-info btn-sm">Edit</a>
+                                                            </div>
+                                                            <div class="inline">
+                                                                <form action="cadet.php" method="POST" class="d-inline">
+                                                                    <a href="" name="delete_student" value="<?= $cadet['cadet_id']; ?>" class="btn btn-danger btn-sm">Withdraw</a>
+                                                                </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                    $rowNum++;
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
 
 
 
+
+                                        
+
+                                        
+
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Pagination -->
+                    <div class="pagination">
+                                        <ul class="pagination-list">
+                                        <?php
+                                        if ($totalPages > 1) {
+                                        if ($currentPage > 1) {
+                                        echo '<li><a href="cadet.php?page=' . ($currentPage - 1) . '">&laquo;</a></li>';
+                                        }
+                                        for ($i = 1; $i <= $totalPages; $i++) {
+                                        if ($i == $currentPage) {
+                                        echo '<li class="active"><span>' . $i . '</span></li>';
+                                        } else {
+                                         echo '<li><a href="cadet.php?page=' . $i . '">' . $i . '</a></li>';
+                                        }
+                                        }
+                                         if ($currentPage < $totalPages) {
+                                        echo '<li><a href="cadet.php?page=' . ($currentPage + 1) . '">&raquo;</a></li>';
+                                 }
+                              }
+                            ?>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -195,5 +233,23 @@ if(!isset($_SESSION['user_name'])){
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
+
+
+    <!--  clickable table that go through into view.php (PS. HINDI GAGANA PAG SA IBANG FILE) -->
+    <script>
+  // Get all the elements with the class "clickable-td"
+  const clickableTDs = document.querySelectorAll(".clickable-td");
+
+  // Add a click event listener to each clickable TD
+  clickableTDs.forEach((td) => {
+    td.addEventListener("click", () => {
+      // Get the URL or action you want to perform when the TD is clicked
+      // For example, you can navigate to the cadet-view.php page with the cadet_id as a query parameter
+      const cadetId = td.dataset.cadetId;
+      window.location.href = `cadet-view.php?cadet_id=${cadetId}`;
+    });
+  });
+</script>
+
 </body>
 </html>
