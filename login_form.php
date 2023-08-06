@@ -4,38 +4,33 @@
 
 session_start();
 
-if(isset($_POST['submit'])){
-    $email = $_POST ['email'];
-    $password = $_POST ['pass'];
-    
-    $select = "SELECT * FROM user WHERE email = '$email' && pass = '$password' ";
+if (isset($_POST['submit'])) {
+   $email = $_POST['email'];
+   $password = $_POST['pass'];
+
+   $select = "SELECT * FROM user WHERE email = '$email'";
 
    $result = mysqli_query($conn, $select);
 
-   if(mysqli_num_rows($result) > 0){
+   if (mysqli_num_rows($result) > 0) {
+       $row = mysqli_fetch_assoc($result);
 
-      $row = mysqli_fetch_array($result);
-
-      if($row['user_type'] == 'admin'){
-
-         $_SESSION['admin_name'] = $row['name'];
-         header('location:user_panel.php');
-
-      }elseif($row['user_type'] == 'user'){
-
-         $_SESSION['user_name'] = $row['name'];
-         header('location:user_panel.php');
-
-      }
-     
-   }else{
-      $error[] = 'INCORRECT EMAIL OR PASSWORD!';
+       // Use password_verify to check if the entered password matches the encrypted password in the database
+       if (password_verify($password, $row['pass'])) {
+           if ($row['user_type'] == 'admin') {
+               $_SESSION['admin_name'] = $row['name'];
+               header('location:user_panel.php');
+           } elseif ($row['user_type'] == 'user') {
+               $_SESSION['user_name'] = $row['name'];
+               header('location:user_panel.php');
+           }
+       } else {
+           $error[] = 'INCORRECT EMAIL OR PASSWORD!';
+       }
+   } else {
+       $error[] = 'INCORRECT EMAIL OR PASSWORD!';
    }
-
-};
-
-
-
+}
 ?>
 
 
@@ -81,8 +76,8 @@ if(isset($_POST['submit'])){
 
    <style>
       .body {
-         background-image: url('image/bg1.jpg');
-         background-position: center bottom -150px;
+         background-image: url('image/bgerror3.jpg');
+         background-position: center bottom 0px;
          background-repeat: no-repeat;
          background-size: 100%;
          background-attachment: fixed;
@@ -97,7 +92,7 @@ if(isset($_POST['submit'])){
       <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Philippine_Military_Academy_%28PMA%29.svg/1200px-Philippine_Military_Academy_%28PMA%29.svg.png">
    </div>
 
-   <form action="" method="post">
+   <form method="post">
       <h3>Login Now</h3>
       <?php
       if(!empty($error)){
@@ -106,8 +101,8 @@ if(isset($_POST['submit'])){
          };
       };
       ?>
-      <input type="email" name="email" id="mytext" placeholder="enter your email">
-      <input type="password" name="pass" id="mytext" placeholder="enter your password">
+      <input type="email" name="email" id="mytext" placeholder="enter your email" required>
+      <input type="password" name="pass" id="mytext" placeholder="enter your password" required>
       <input type="submit" name="submit" value="login now" class="form-btn">
       <p>don't have an account? <a href="register_form.php">register now</a></p>
    </form>

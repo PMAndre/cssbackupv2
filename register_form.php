@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,46 +10,70 @@
 
    <!-- custom css file link  -->
    <link rel="stylesheet" href="css/style3.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
    <style>
       .body {
-         background-image: url('image/bg1.jpg');
-         background-position: center bottom -150px;
+         background-image: url('image/bgerror3.jpg');
+         background-position: center bottom 0px;
          background-repeat: no-repeat;
          background-size: 100%;
          background-attachment: fixed;
+      }
+      #showHideIcon {
+         cursor: pointer;
       }
    </style>
 
 </head>
 <body class="body">
-<div class="form-container">
+   <div class="form-container">
 
-<div class="logo-align">
-      <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Philippine_Military_Academy_%28PMA%29.svg/1200px-Philippine_Military_Academy_%28PMA%29.svg.png">
+      <div class="logo-align">
+         <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Philippine_Military_Academy_%28PMA%29.svg/1200px-Philippine_Military_Academy_%28PMA%29.svg.png">
+      </div>
+
+         <form action="insert.php" method="post">
+            <h3>Register Now</h3>
+            <?php
+            if(!empty($error)){
+               foreach($error as $errorMsg){
+                  echo '<span class="error-msg">'.$errorMsg.'</span>';
+               };
+            };
+            ?>
+            <input type="text" name="name" required placeholder="enter your name">
+            <input type="email" name="email" required placeholder="enter your email">
+            <input type="password" name="pass" required placeholder="enter your password" id="password">
+            <!-- <span id="showHideIcon" class="fas fa-eye-slash" onclick="togglePasswordVisibility()"></span> -->
+            <input type="password" name="cpass" required placeholder="confirm your password">
+            <select name="user_type">
+               <option value="user">user</option>
+            </select>
+            <input type="submit" name="submit" value="submit" class="form-btn">
+            <p>already have an account? <a href="login_form.php">login now</a></p>
+         </form>
+
    </div>
 
-   <form action="insert.php" method="post">
-      <h3>Register Now</h3>
-      <?php
-      if(!empty($error)){
-         foreach($error as $errorMsg){
-            echo '<span class="error-msg">'.$errorMsg.'</span>';
-         };
-      };
-      ?>
-      <input type="text" name="name" required placeholder="enter your name">
-      <input type="email" name="email" required placeholder="enter your email">
-      <input type="password" name="pass" required placeholder="enter your password">
-      <input type="password" name="cpass" required placeholder="confirm your password">
-      <select name="user_type">
-         <option value="user">user</option>
-      </select>
-      <input type="submit" name="submit" value="submit" class="form-btn">
-      <p>already have an account? <a href="login_form.php">login now</a></p>
-   </form>
+   <scrpt src="script.js"></script>
+   <script>
+      function togglePasswordVisibility() {
+         var passwordInput = document.getElementById('password');
+         var showHideIcon = document.getElementById('showHideIcon');
 
-</div>
+         if (passwordInput.type === 'password') {
+               passwordInput.type = 'text';
+               showHideIcon.classList.remove('fa-eye-slash');
+               showHideIcon.classList.add('fa-eye');
+         } else {
+               passwordInput.type = 'password';
+               showHideIcon.classList.remove('fa-eye');
+               showHideIcon.classList.add('fa-eye-slash');
+         }
+      }
+   </script>
+
 
 </body>
 </html>

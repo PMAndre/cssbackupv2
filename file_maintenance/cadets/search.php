@@ -32,7 +32,7 @@ $totalEntries = $countRow['total'];
 
 
 // Define the number of entries to display per page and calculate the total number of pages
-$entriesPerPage = 10;
+$entriesPerPage = 15;
 $totalPages = ceil($totalEntries / $entriesPerPage);
 
 

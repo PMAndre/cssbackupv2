@@ -93,12 +93,12 @@ if(!isset($_SESSION['user_name'])){
                     <div class="dropdown">
                         <ul>
                             <li>
-                                <a href="logout.php">
-                                    <i class="uil uil-signout">Logout</i></a>
-                            </li>
-                            <li>
                                 <a href="update-prof.php">
                                     <i class="uil uil-profile">Edit Profile</i></a>
+                            </li>
+                            <li>
+                                <a href="logout.php">
+                                    <i class="uil uil-signout">Logout</i></a>
                             </li>
                             <li>
                                 <i class="uil uil-moon"></i>
@@ -165,6 +165,7 @@ if(!isset($_SESSION['user_name'])){
             </div>
         </div>
     </section>
+    
     <script src="script.js"></script>
     <script>
     document.addEventListener("DOMContentLoaded", function() {

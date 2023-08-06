@@ -67,6 +67,8 @@ CREATE TABLE `cadet` (
   `latinaward` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `password` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `coybat` varchar(10) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  'active' TINYINT(1) NOT NULL DEFAULT 0;
+  'not_active' TINYINT(1) NOT NULL DEFAULT 1;
   PRIMARY KEY (`cadet_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -212,8 +214,7 @@ CREATE TABLE `user` (
   `user_id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `email` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `pass` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `cpass` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `pass` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `user_type` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

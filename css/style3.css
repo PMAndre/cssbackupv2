@@ -123,3 +123,15 @@ select {
     color: #333;
   }
   
+
+  /* Add some spacing and style to the password toggle icon */
+.password-toggle {
+   position: absolute;
+   right: 10px;
+   top: 50%;
+   transform: translateY(-50%);
+   cursor: pointer;
+   color: #666;
+ }
+ 
+ 

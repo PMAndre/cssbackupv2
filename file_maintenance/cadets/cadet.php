@@ -85,7 +85,7 @@ include 'dbcon.php';
                     <!-- Name of the profile
                         <h3>Famous<br><span>Tinapay Enjoyer</span></h3> -->
                     <ul>
-                        <li><a href="logout.php">
+                        <li><a href="/cssbackupv2/logout.php">
                             <i class="uil uil-signout">Logout</i></a>
                         </li>
                         <li><a href="#">
@@ -132,10 +132,11 @@ include 'dbcon.php';
                                         <table class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
-                                                <th class="td">AFPSN</th>
-                                                <th class="td">SERVID</th>
-                                                <th class="td">MAJID</th>
-                                                <th class="td">YRGR</th>
+                                                <th class="td">Serv ID</th>
+                                                <th class="td">Maj ID</th>
+                                                <th class="td">Last Name</th>
+                                                <th class="td">First Name</th>
+                                                <th class="td">Gender</th>
                                                 <th class="td"></th>
                                             </tr>
                                         </thead>
@@ -146,18 +147,16 @@ include 'dbcon.php';
 
                                                 $rowNum = ($currentPage - 1) * $entriesPerPage + 1;
                                                 while ($cadet = mysqli_fetch_assoc($query_run)) {
-                                                    $afpsn = $cadet['afpsn'];
                                                     $servid = $cadet['servid'];
                                                     $majid = $cadet['majid'];
-                                                    $yrgr = $cadet['yrgr'];
+                                                    $lname = $cadet['lname'];
+                                                    $fname = $cadet['fname'];
+                                                    $gender = $cadet['gender'];
                                                 
                                                     // Convert the PHP variables to JSON format and encode them
-                                                    $cadetJson = json_encode([$afpsn, $servid, $majid, $yrgr]);
+                                                    $cadetJson = json_encode([$servid, $majid, $lname, $fname, $gender]);
                                                     ?>
                                                     <tr class="myList">
-                                                        <td class="clickable-td" data-cadet-id="<?= $cadet['cadet_id']; ?>">
-                                                            <?= strtoupper($cadet['afpsn']); ?>
-                                                        </td>
                                                         <td class="clickable-td" data-cadet-id="<?= $cadet['cadet_id']; ?>">
                                                             <?= strtoupper($cadet['servid']); ?>
                                                         </td>
@@ -165,17 +164,35 @@ include 'dbcon.php';
                                                             <?= strtoupper($cadet['majid']); ?>
                                                         </td>
                                                         <td class="clickable-td" data-cadet-id="<?= $cadet['cadet_id']; ?>">
-                                                            <?= strtoupper($cadet['yrgr']); ?>
+                                                            <?= strtoupper($cadet['lname']); ?>
+                                                        </td>
+                                                        <td class="clickable-td" data-cadet-id="<?= $cadet['cadet_id']; ?>">
+                                                            <?= strtoupper($cadet['fname']); ?>
+                                                        </td>
+                                                        <td class="clickable-td" data-cadet-id="<?= $cadet['cadet_id']; ?>">
+                                                            <?= strtoupper($cadet['gender']); ?>
                                                         </td>
 
                                                         <td>
                                                             <div class="inline">
-                                                                <a href="cadet-edit.php?cadet_id=<?= $cadet['cadet_id']; ?>" class="btn btn-info btn-sm">Edit</a>
+                                                                <?php if ($cadet['active'] == 1): ?>
+                                                                    <span class="btn btn-info btn-sm">Activate</span>
+                                                                <?php else: ?>
+                                                                    <form action="cadet.php" method="POST" class="d-inline">
+                                                                        <input type="hidden" name="cadet_id" value="<?= $cadet['cadet_id']; ?>">
+                                                                        <button type="submit" name="activate_cadet" class="btn btn-info btn-sm">Activate</button>
+                                                                    </form>
+                                                                <?php endif; ?>
                                                             </div>
                                                             <div class="inline">
-                                                                <form action="cadet.php" method="POST" class="d-inline">
-                                                                    <a href="" name="delete_student" value="<?= $cadet['cadet_id']; ?>" class="btn btn-danger btn-sm">Withdraw</a>
-                                                                </form>
+                                                                <?php if ($cadet['not_active'] == 1): ?>
+                                                                    <span class="btn btn-danger btn-sm">Not Active</span>
+                                                                <?php else: ?>
+                                                                    <form action="cadet.php" method="POST" class="d-inline">
+                                                                        <input type="hidden" name="cadet_id" value="<?= $cadet['cadet_id']; ?>">
+                                                                        <button type="submit" name="deactivate_cadet" class="btn btn-danger btn-sm">Deactivate</button>
+                                                                    </form>
+                                                                <?php endif; ?>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -185,16 +202,6 @@ include 'dbcon.php';
                                                 ?>
                                             </tbody>
                                         </table>
-
-
-
-
-                                        
-
-                                        
-
-
-
 
                                     </div>
                                 </div>
@@ -237,19 +244,19 @@ include 'dbcon.php';
 
     <!--  clickable table that go through into view.php (PS. HINDI GAGANA PAG SA IBANG FILE) -->
     <script>
-  // Get all the elements with the class "clickable-td"
-  const clickableTDs = document.querySelectorAll(".clickable-td");
+    // Get all the elements with the class "clickable-td"
+    const clickableTDs = document.querySelectorAll(".clickable-td");
 
-  // Add a click event listener to each clickable TD
-  clickableTDs.forEach((td) => {
-    td.addEventListener("click", () => {
-      // Get the URL or action you want to perform when the TD is clicked
-      // For example, you can navigate to the cadet-view.php page with the cadet_id as a query parameter
-      const cadetId = td.dataset.cadetId;
-      window.location.href = `cadet-view.php?cadet_id=${cadetId}`;
+    // Add a click event listener to each clickable TD
+    clickableTDs.forEach((td) => {
+        td.addEventListener("click", () => {
+        // Get the URL or action you want to perform when the TD is clicked
+        // For example, you can navigate to the cadet-view.php page with the cadet_id as a query parameter
+        const cadetId = td.dataset.cadetId;
+        window.location.href = `cadet-edit.php?cadet_id=${cadetId}`;
+        });
     });
-  });
-</script>
+    </script>
 
 </body>
 </html>
