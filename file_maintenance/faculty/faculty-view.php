@@ -11,7 +11,7 @@ require 'dbcon.php';
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <title>Student View</title>
+    <title>Faculty View</title>
 </head>
 <body>
 
@@ -21,7 +21,7 @@ require 'dbcon.php';
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Student View Details 
+                        <h4>Faculty View Details 
                             <a href="faculty.php" class="btn btn-danger float-end">BACK</a>
                         </h4>
                     </div>
@@ -36,126 +36,118 @@ require 'dbcon.php';
 
                             if(mysqli_num_rows($query_run) > 0)
                             {
-                                $student = mysqli_fetch_array($query_run);
+                                $faculty = mysqli_fetch_array($query_run);
                                 ?>
                                 
                                     <div class="mb-3">
                                         <label>SERIALNR</label>
                                         <p class="form-control">
-                                            <?=$student['serialnr'];?>
+                                            <?= strtoupper($faculty['serialnr']); ?>
                                         </p>
                                     </div>
-                                    
                                     <div class="mb-3">
                                         <label>LNAME</label>
                                         <p class="form-control">
-                                            <?=$student['lname'];?>
+                                            <?= strtoupper($faculty['lname']); ?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
                                         <label>FNAME</label>
                                         <p class="form-control">
-                                            <?=$student['fname'];?>
+                                            <?= strtoupper($faculty['fname']); ?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
                                         <label>MI</label>
                                         <p class="form-control">
-                                            <?=$student['mi'];?>
+                                            <?= strtoupper($faculty['mi']); ?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
                                         <label>ANAME</label>
                                         <p class="form-control">
-                                            <?=$student['aname'];?>
+                                            <?= strtoupper($faculty['aname']); ?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
                                         <label>GENDER</label>
                                         <p class="form-control">
-                                            <?=$student['gender'];?>
+                                            <?= strtoupper($faculty['gender']); ?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
                                         <label>DEPTCODE</label>
                                         <p class="form-control">
-                                            <?=$student['deptcode'];?>
+                                            <?= strtoupper($faculty['deptcode']); ?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
                                         <label>IGROUP</label>
                                         <p class="form-control">
-                                            <?=$student['igroup'];?>
+                                            <?= strtoupper($faculty['igroup']); ?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
                                         <label>ITYPE</label>
                                         <p class="form-control">
-                                            <?=$student['itype'];?>
+                                            <?= strtoupper($faculty['itype']); ?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
                                         <label>RANK</label>
                                         <p class="form-control">
-                                            <?=$student['rank'];?>
+                                            <?= strtoupper($faculty['rank']); ?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
                                         <label>BROFSERV</label>
                                         <p class="form-control">
-                                            <?=$student['brofserv'];?>
+                                            <?= strtoupper($faculty['brofserv']); ?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
                                         <label>STATUS</label>
                                         <p class="form-control">
-                                            <?=$student['status'];?>
+                                            <?= strtoupper($faculty['status']); ?>
                                         </p>
                                     </div>
-                                    
-                                    <label>PIX</label>
+                                    <div class="mb-3">
+                                        <label>PIX</label>
+                                        <br>
                                         <?php
-                                        if (isset($_GET['faculty_id'])) {
-                                            $faculty_id = $_GET['faculty_id'];
-                                            $result = mysqli_query($conn, "SELECT * FROM faculty WHERE faculty_id = '$faculty_id' LIMIT 1");
-                                            if (mysqli_num_rows($result) > 0) {
-                                                $row = mysqli_fetch_assoc($result);
-                                                echo "<img src='uploads/" . $row['pix'] . "' width='200' height='150'>";
-                                                // Other faculty information
-                                            } else {
-                                                echo "<p>No such entry found.</p>";
-                                            }
+                                        if (!empty($faculty['pix'])) {
+                                            echo '<img src="data:image/jpeg;base64,' . base64_encode($faculty['pix']) . '" alt="Student Image" class="img-thumbnail" style="max-width: 500px;">';
                                         } else {
-                                            echo "<p>No entry ID specified.</p>";
+                                            echo 'No image available.';
                                         }
-    ?>
-                                    
-        
-                                        
+                                        ?>
+                                    </div>
                                     <div class="mb-3">
                                         <label>UNAME</label>
                                         <p class="form-control">
-                                            <?=$student['uname'];?>
+                                            <?= strtoupper($faculty['uname']); ?>
                                         </p>
-                                    </div><div class="mb-3">
+                                    </div>
+                                    <div class="mb-3">
                                         <label>PWD</label>
                                         <p class="form-control">
-                                            <?=$student['pwd'];?>
+                                            <?= strtoupper($faculty['pwd']); ?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
                                         <label>LVL</label>
                                         <p class="form-control">
-                                            <?=$student['lvl'];?>
+                                            <?= strtoupper($faculty['lvl']); ?>
                                         </p>
                                     </div>
                                     <div class="mb-3">
                                         <label>ACTIVE</label>
                                         <p class="form-control">
-                                            <?=$student['active'];?>
+                                            <?= strtoupper($faculty['active']); ?>
                                         </p>
                                     </div>
-                                   
+                                    
+            
 
 
                                 <?php

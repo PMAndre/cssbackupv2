@@ -2,52 +2,148 @@
 
 require 'dbcon.php';
 
+// Define the maximum lengths for each input field based on your database schema
+$max_serialnr_length = 6;
+$max_lname_length = 15;
+$max_fname_length = 30;
+$max_mi_length = 3;
+$max_aname_length = 4;
+$max_gender_length = 1;
+$max_deptcode_length = 4;
+$max_igroup_length = 7;
+$max_itype_length = 4;
+$max_ranks_length = 4;
+$max_brofserv_length = 5;
+$max_status_length = 1;
+$max_uname_length = 20;
+$max_pwd_length = 20;
 
-if(isset($_POST['delete_student']))
-{
-    $student_id = mysqli_real_escape_string($conn, $_POST['delete_student']);
+if (isset($_REQUEST['deactivate_faculty'])) {
+    $faculty_id = mysqli_real_escape_string($conn, $_REQUEST['faculty_id']);
 
-    $query = "DELETE FROM faculty WHERE id='$student_id' ";
-    $query_run = mysqli_query($conn, $query);
+    // Set the 'active' and 'not_active' columns accordingly
+    $query = "UPDATE faculty SET active = 0, not_active = 1 WHERE faculty_id = '$faculty_id'";
 
-    if (mysqli_query($conn, $query)){
-        $_SESSION['message'] = "Student delete Successfully";
-        echo "<script>window.location.href = 'faculty.php';</script>";
-        exit(0);
+    if (mysqli_query($conn, $query)) {
+        $_SESSION['message'] = "Faculty deactivated Successfully";
     } else {
-        $_SESSION['message'] = "Student Not deleted ";
+        $_SESSION['message'] = "Failed to deactivate faculty";
+    }
+    echo "<script>window.location.href = 'faculty.php';</script>";
+    exit(0);
+}
+
+if (isset($_POST['activate_faculty'])) {
+    $faculty_id = mysqli_real_escape_string($conn, $_POST['faculty_id']);
+
+    // Set the 'active' and 'not_active' columns accordingly
+    $query = "UPDATE faculty SET active = 1, not_active = 0 WHERE faculty_id = '$faculty_id'";
+
+    if (mysqli_query($conn, $query)) {
+        $_SESSION['message'] = "Faculty activated Successfully";
+    } else {
+        $_SESSION['message'] = "Failed to activate faculty";
+    }
+    echo "<script>window.location.href = 'faculty.php';</script>";
+    exit(0);
+}
+
+if (isset($_REQUEST['update_faculty']))
+{
+    $faculty_id = mysqli_real_escape_string($conn, $_REQUEST['faculty_id']);
+    $serialnr = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['serialnr']));
+    $lname = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['lname']));
+    $fname = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['fname']));
+    $mi = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['mi']));
+    $aname = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['aname']));
+    $gender = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['gender']));
+    $deptcode = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['deptcode']));
+    $igroup = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['igroup']));
+    $itype = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['itype']));
+    $ranks = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['ranks']));
+    $brofserv = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['brofserv']));
+    $status = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['status']));
+    $uname = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['uname']));
+    $pwd = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['pwd']));
+    $lvl = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['lvl']));
+
+    // Validate input lengths before updating
+    $error_fields = array();
+
+    if (strlen($serialnr) > $max_serialnr_length) {
+        $error_fields[] = 'SERIALNR';
+    }
+    if (strlen($lname) > $max_lname_length) {
+        $error_fields[] = 'LNAME';
+    }
+    if (strlen($fname) > $max_fname_length) {
+        $error_fields[] = 'FNAME';
+    }
+    if (strlen($mi) > $max_mi_length) {
+        $error_fields[] = 'MI';
+    }
+    if (strlen($aname) > $max_aname_length) {
+        $error_fields[] = 'ANAME';
+    }
+    if (strlen($gender) > $max_gender_length) {
+        $error_fields[] = 'GENDER';
+    }
+    if (strlen($deptcode) > $max_deptcode_length) {
+        $error_fields[] = 'DEPTCODE';
+    }
+    if (strlen($igroup) > $max_igroup_length) {
+        $error_fields[] = 'IGROUP';
+    }
+    if (strlen($itype) > $max_itype_length) {
+        $error_fields[] = 'ITYPE';
+    }
+    if (strlen($ranks) > $max_ranks_length) {
+        $error_fields[] = 'RANKS';
+    }
+    if (strlen($brofserv) > $max_brofserv_length) {
+        $error_fields[] = 'BROFSERV';
+    }
+    if (strlen($status) > $max_status_length) {
+        $error_fields[] = 'STATUS';
+    }
+    if (strlen($uname) > $max_uname_length) {
+        $error_fields[] = 'UNAME';
+    }
+    if (strlen($pwd) > $max_pwd_length) {
+        $error_fields[] = 'PWD';
+    }
+    if (!empty($error_fields)) {
+        $error_fields_str = implode(', ', $error_fields);
+        $_SESSION['message'] = "The following fields exceed the maximum allowed length: $error_fields_str";
         echo "<script>window.location.href = 'faculty.php';</script>";
         exit(0);
     }
-}
 
-if (isset($_REQUEST['update_student']))
-{
-    $faculty_id = mysqli_real_escape_string($conn, $_REQUEST['faculty_id']);
-    $serialnr = mysqli_real_escape_string($conn, $_REQUEST['serialnr']);
-    $lname = mysqli_real_escape_string($conn, $_REQUEST['lname']);
-    $fname = mysqli_real_escape_string($conn, $_REQUEST['fname']);
-    $mi = mysqli_real_escape_string($conn, $_REQUEST['mi']);
-    $aname = mysqli_real_escape_string($conn, $_REQUEST['aname']);
-    $gender = mysqli_real_escape_string($conn, $_REQUEST['gender']);
-    $deptcode = mysqli_real_escape_string($conn, $_REQUEST['deptcode']);
-    $igroup = mysqli_real_escape_string($conn, $_REQUEST['igroup']);
-    $itype = mysqli_real_escape_string($conn, $_REQUEST['itype']);
-    $rank = mysqli_real_escape_string($conn, $_REQUEST['rank']);
-    $brofserv = mysqli_real_escape_string($conn, $_REQUEST['brofserv']);
-    $status = mysqli_real_escape_string($conn, $_REQUEST['status']);
-    $pix = mysqli_real_escape_string($conn, $_REQUEST['pix']);
-    $uname = mysqli_real_escape_string($conn, $_REQUEST['uname']);
-    $pwd = mysqli_real_escape_string($conn, $_REQUEST['pwd']);
-    $lvl = mysqli_real_escape_string($conn, $_REQUEST['lvl']);
-    $active = mysqli_real_escape_string($conn, $_REQUEST['active']);
+    // Handle image upload
+    if (isset($_FILES['pix']) && $_FILES['pix']['size'] > 0) {
+        $image = $_FILES['pix']['tmp_name'];
+        $imageData = addslashes(file_get_contents($image));
 
+        // Generate a unique identifier for the image file
+        $uniqueName = uniqid();
+        $extension = pathinfo($_FILES['pix']['name'], PATHINFO_EXTENSION);
+        $targetDir = "uploads/";
+        $targetFile = $targetDir . $uniqueName . "." . $extension;
+
+        // Upload the image to the "uploads" folder with the unique name
+        move_uploaded_file($_FILES["pix"]["tmp_name"], $targetFile);
+    } else {
+        // If no image is uploaded, keep the existing image data in the database
+        $query = "SELECT pix FROM faculty WHERE faculty_id='$faculty_id'";
+        $result = mysqli_query($conn, $query);
+        $row = mysqli_fetch_assoc($result);
+        $imageData = $row['pix'];
+    }
 
     $query = "UPDATE faculty SET serialnr='$serialnr', lname='$lname', fname='$fname', mi='$mi', aname='$aname', 
-    gender='$gender', deptcode='$deptcode', igroup='$igroup', itype='$itype', rank='$rank', brofserv='$brofserv',
-    status='$status', pix='$pix', uname='$uname', pwd='$pwd', lvl='$lvl', active='$active'
+    gender='$gender', deptcode='$deptcode', igroup='$igroup', itype='$itype', ranks='$ranks', brofserv='$brofserv',
+    status='$status', pix='$imageData', uname='$uname', pwd='$pwd', lvl='$lvl'
     WHERE faculty_id='$faculty_id'";
-    $query_run = mysqli_query($conn, $query);
 
     if (mysqli_query($conn, $query)){
         $_SESSION['message'] = "Student updated Successfully";
@@ -60,31 +156,104 @@ if (isset($_REQUEST['update_student']))
     }
 
 }
+?>
 
-if(isset($_POST['save_student']))
+<?php
+if(isset($_POST['save_faculty']))
 {
-    $serialnr = mysqli_real_escape_string($conn, $_POST['serialnr']);
-    $lname = mysqli_real_escape_string($conn, $_POST['lname']);
-    $fname = mysqli_real_escape_string($conn, $_POST['fname']);
-    $mi = mysqli_real_escape_string($conn, $_POST['mi']);
-    $aname = mysqli_real_escape_string($conn, $_POST['aname']);
-    $gender = mysqli_real_escape_string($conn, $_POST['gender']);
-    $deptcode = mysqli_real_escape_string($conn, $_POST['deptcode']);
-    $igroup = mysqli_real_escape_string($conn, $_POST['igroup']);
-    $itype = mysqli_real_escape_string($conn, $_POST['itype']);
-    $rank = mysqli_real_escape_string($conn, $_POST['rank']);
-    $brofserv = mysqli_real_escape_string($conn, $_POST['brofserv']);
-    $status = mysqli_real_escape_string($conn, $_POST['status']);
-    $pix = mysqli_real_escape_string($conn, $_POST['pix']);
-    $uname = mysqli_real_escape_string($conn, $_POST['uname']);
-    $pwd = mysqli_real_escape_string($conn, $_POST['pwd']);
-    $lvl = mysqli_real_escape_string($conn, $_POST['lvl']);
-    $active = mysqli_real_escape_string($conn, $_POST['active']);
+    $serialnr = strtoupper($_POST['serialnr']);
+    $lname = strtoupper($_POST['lname']);
+    $fname = strtoupper($_POST['fname']);
+    $mi = strtoupper($_POST['mi']);
+    $aname = strtoupper($_POST['aname']);
+    $gender = strtoupper($_POST['gender']);
+    $deptcode = strtoupper($_POST['deptcode']);
+    $igroup = strtoupper($_POST['igroup']);
+    $itype = strtoupper($_POST['itype']);
+    $ranks = strtoupper($_POST['ranks']);
+    $brofserv = strtoupper($_POST['brofserv']);
+    $status = strtoupper($_POST['status']);
+    $uname = strtoupper($_POST['uname']);
+    $pwd = strtoupper($_POST['pwd']);
+    $lvl = strtoupper($_POST['lvl']);
 
-    $query = "INSERT INTO faculty (serialnr,lname,fname,mi,aname,gender,deptcode,igroup,itype,rank,brofserv,
-    status,pix,uname,pwd,lvl,active) 
-    VALUES ('$serialnr','$lname','$fname','$mi','$aname','$gender','$deptcode','$igroup','$itype','$rank',
-    '$brofserv','$status', '$pix','$uname','$pwd','$lvl','$active')";
+     // Validate input lengths before updating
+    $error_fields = array();
+
+    if (strlen($serialnr) > $max_serialnr_length) {
+        $error_fields[] = 'SERIALNR';
+    }
+    if (strlen($lname) > $max_lname_length) {
+        $error_fields[] = 'LNAME';
+    }
+    if (strlen($fname) > $max_fname_length) {
+        $error_fields[] = 'FNAME';
+    }
+    if (strlen($mi) > $max_mi_length) {
+        $error_fields[] = 'MI';
+    }
+    if (strlen($aname) > $max_aname_length) {
+        $error_fields[] = 'ANAME';
+    }
+    if (strlen($gender) > $max_gender_length) {
+        $error_fields[] = 'GENDER';
+    }
+    if (strlen($deptcode) > $max_deptcode_length) {
+        $error_fields[] = 'DEPTCODE';
+    }
+    if (strlen($igroup) > $max_igroup_length) {
+        $error_fields[] = 'IGROUP';
+    }
+    if (strlen($itype) > $max_itype_length) {
+        $error_fields[] = 'ITYPE';
+    }
+    if (strlen($ranks) > $max_ranks_length) {
+        $error_fields[] = 'RANKS';
+    }
+    if (strlen($brofserv) > $max_brofserv_length) {
+        $error_fields[] = 'BROFSERV';
+    }
+    if (strlen($status) > $max_status_length) {
+        $error_fields[] = 'STATUS';
+    }
+    if (strlen($uname) > $max_uname_length) {
+        $error_fields[] = 'UNAME';
+    }
+    if (strlen($pwd) > $max_pwd_length) {
+        $error_fields[] = 'PWD';
+    }
+    if (!empty($error_fields)) {
+        $error_fields_str = implode(', ', $error_fields);
+        $_SESSION['message'] = "The following fields exceed the maximum allowed length: $error_fields_str";
+        echo "<script>window.location.href = 'faculty.php';</script>";
+        exit(0);
+    }
+
+    // Handle image upload
+    if (isset($_FILES['pix']) && $_FILES['pix']['size'] > 0) {
+        $image = $_FILES['pix']['tmp_name'];
+        $imageData = addslashes(file_get_contents($image));
+
+        // Generate a unique identifier for the image file
+        $uniqueName = uniqid();
+        $extension = pathinfo($_FILES['pix']['name'], PATHINFO_EXTENSION);
+        $targetDir = "uploads/";
+        $targetFile = $targetDir . $uniqueName . "." . $extension;
+
+        // Upload the image to the "uploads" folder with the unique name
+        move_uploaded_file($_FILES["pix"]["tmp_name"], $targetFile);
+    } else {
+        // If no image is uploaded, keep the existing image data in the database
+        $query = "SELECT pix FROM faculty WHERE faculty_id='$faculty_id'";
+        $result = mysqli_query($conn, $query);
+        $row = mysqli_fetch_assoc($result);
+        $imageData = $row['pix'];
+    }
+
+    $query = "INSERT INTO faculty (serialnr,lname,fname,mi,aname,gender,deptcode,igroup,itype,ranks,brofserv,
+    status,pix,uname,pwd,lvl) 
+    VALUES ('$serialnr','$lname','$fname','$mi','$aname','$gender','$deptcode','$igroup','$itype','$ranks',
+    '$brofserv','$status', '$imageData','$uname','$pwd','$lvl')";
     
     if (mysqli_query($conn, $query)){
         $_SESSION['message'] = "Student Created Successfully";
@@ -95,139 +264,35 @@ if(isset($_POST['save_student']))
         echo "<script>window.location.href = 'faculty.php';</script>";
         exit(0);
     }
-    /*
-    if (isset($_POST["save_student"])) {
-    
-        if ($_FILES["pix"]["error"] === 4) {
-        echo "<script> alert('Image does not exist.'); </script>";
-        } else {
-        $fileSize = $_FILES["pix"]["size"];
-        $tmpName = $_FILES["pix"]["tmp_name"];
-    
-        $validImageExtensions = ['jpg', 'jpeg', 'png'];
-        $imageExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-        
-        if (!in_array($imageExtension, $validImageExtensions)) {
-            echo "<script> alert('Invalid image extension.'); </script>";
-        } else if ($fileSize > 1000000) {
-            echo "<script> alert('Image size is too large.'); </script>";
-        } else {
-            $newImageName = uniqid() . '.' . $imageExtension;
-            $destination = 'uploads/' . $newImageName;
-    
-            if (move_uploaded_file($tmpName, $destination)) {
-            $query = "INSERT INTO faculty (pix) VALUES ('$newImageName')";
-            mysqli_query($conn, $query);
-            echo "<script>
-                    alert('Successfully added.');
-                    window.location.href = 'view.php';
-                    </script>";
-            } else {
-            echo "<script> alert('Failed to move the uploaded file.'); </script>";
-            }
-        }
-        }
-        if (mysqli_query($conn, $query)){
-            $_SESSION['message'] = "Student Created Successfully";
-            echo "<script>window.location.href = 'faculty.php';</script>";
-            exit(0);
-        } else {
-            $_SESSION['message'] = "Student Not Created";
-            echo "<script>window.location.href = 'faculty.php';</script>";
-            exit(0);
-        }
-    }
-    */
 }
 
-
-?>
-
-
-<?php
-// Specify the upload directory
-$uploadDir = "uploads/";
-
-// Check if an image was uploaded
-if (isset($_FILES["image"]) && $_FILES["image"]["error"] == 0) {
-    // Generate a unique filename for the uploaded image
-    $fileName = uniqid() . "_" . $_FILES["image"]["name"];
-    $filePath = $uploadDir . $fileName;
-
-    // Move the uploaded image to the desired directory
-    if (move_uploaded_file($_FILES["image"]["tmp_name"], $filePath)) {
-        echo "Image uploaded successfully.";
-
-        // Insert the file path into the database
-        // Database connection parameters
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "cgs";
-        $port = 3306;
-
-        // Create a database connection
-        $conn = new mysqli($servername, $username, $password, $dbname, $port);
-
-        // Check if the connection was successful
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        // Prepare the SQL statement
-        $stmt = $conn->prepare("INSERT INTO faculty (pix) VALUES (?)");
-
-        // Bind the file path to the SQL statement
-        $stmt->bind_param("s", $filePath);
-
-        // Execute the SQL statement
-        if ($stmt->execute()) {
-            echo "File path inserted into the database.";
-
-            if (isset($_POST['save_student'])) {
-                $serialnr = mysqli_real_escape_string($conn, $_POST['serialnr']);
-                $lname = mysqli_real_escape_string($conn, $_POST['lname']);
-                $fname = mysqli_real_escape_string($conn, $_POST['fname']);
-                $mi = mysqli_real_escape_string($conn, $_POST['mi']);
-                $aname = mysqli_real_escape_string($conn, $_POST['aname']);
-                $gender = mysqli_real_escape_string($conn, $_POST['gender']);
-                $deptcode = mysqli_real_escape_string($conn, $_POST['deptcode']);
-                $igroup = mysqli_real_escape_string($conn, $_POST['igroup']);
-                $itype = mysqli_real_escape_string($conn, $_POST['itype']);
-                $rank = mysqli_real_escape_string($conn, $_POST['rank']);
-                $brofserv = mysqli_real_escape_string($conn, $_POST['brofserv']);
-                $status = mysqli_real_escape_string($conn, $_POST['status']);
-                $uname = mysqli_real_escape_string($conn, $_POST['uname']);
-                $pwd = mysqli_real_escape_string($conn, $_POST['pwd']);
-                $lvl = mysqli_real_escape_string($conn, $_POST['lvl']);
-                $active = mysqli_real_escape_string($conn, $_POST['active']);
-
-                $query = "INSERT INTO faculty (serialnr,lname,fname,mi,aname,gender,deptcode,igroup,itype,rank,brofserv,
-                status,uname,pwd,lvl,active) 
-                VALUES ('$serialnr','$lname','$fname','$mi','$aname','$gender','$deptcode','$igroup','$itype','$rank',
-                '$brofserv','$status','$uname','$pwd','$lvl','$active')";
-                
-                if (mysqli_query($conn, $query)) {
-                    $_SESSION['message'] = "Student Created Successfully";
-                    echo "<script>window.location.href = 'faculty.php';</script>";
-                    exit(0);
-                } else {
-                    $_SESSION['message'] = "Student Not Created";
-                    echo "<script>window.location.href = 'faculty.php';</script>";
-                    exit(0);
-                }
-            }
-        } else {
-            echo "Error inserting file path: " . $conn->error;
-        }
-
-        // Close the statement
-        $stmt->close();
-
-        // Close the database connection
-        $conn->close();
-    } else {
-        echo "Error uploading image.";
-    }
+//PAGINATION//
+if (!isset($_SESSION['user_name'])) {
+    echo '<script>window.location.href = "login_form.php";</script>';
 }
+
+// Determine the total number of entries in the "faculty" table
+$countQuery = "SELECT COUNT(*) as total FROM faculty";
+$countResult = mysqli_query($conn, $countQuery);
+$countRow = mysqli_fetch_assoc($countResult);
+$totalEntries = $countRow['total'];
+
+// Define the number of entries to display per page and calculate the total number of pages
+$entriesPerPage = 15;
+$totalPages = ceil($totalEntries / $entriesPerPage);
+
+// Get the current page number from the query string or set it to the first page if not provided
+if (isset($_GET['page'])) {
+    $currentPage = $_GET['page'];
+} else {
+    $currentPage = 1;
+}
+
+// Calculate the offset for the database query based on the current page and number of entries per page
+$offset = ($currentPage - 1) * $entriesPerPage;
+
+// Modify your existing query to include the LIMIT and OFFSET clauses
+$query = "SELECT * FROM faculty LIMIT $entriesPerPage OFFSET $offset";
+$query_run = mysqli_query($conn, $query);
+
 ?>

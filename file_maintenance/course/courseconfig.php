@@ -21,6 +21,64 @@ if(isset($_POST['delete_student']))
     }
 }
 
+// if(isset($_REQUEST['update_student']))
+// {
+//     $course_id = mysqli_real_escape_string($conn, $_REQUEST['course_id']);
+//     $ccode = mysqli_real_escape_string($conn, $_REQUEST['ccode']);
+//     $cequi = mysqli_real_escape_string($conn, $_REQUEST['cequi']);
+//     $cname = mysqli_real_escape_string($conn, $_REQUEST['cname']);
+//     $cdesc = mysqli_real_escape_string($conn, $_REQUEST['cdesc']);
+//     $cunits = mysqli_real_escape_string($conn, $_REQUEST['cunits']);
+//     $ctype = $_REQUEST['ctype']; // Bypass special character restriction
+//     $cadd = mysqli_real_escape_string($conn, $_REQUEST['cadd']);
+//     $cadd2 = mysqli_real_escape_string($conn, $_REQUEST['cadd2']);
+//     $ctypeold = mysqli_real_escape_string($conn, $_REQUEST['ctypeold']);
+
+//     // Define a regular expression pattern for allowed characters
+//     $allowedPattern = '/^[a-zA-Z0-9\s]+$/';
+
+//     // Check if the input contains any disallowed characters for fields except ctype
+//     if (!preg_match($allowedPattern, $ccode) ||
+//         !preg_match($allowedPattern, $cequi) ||
+//         !preg_match($allowedPattern, $cname) ||
+//         !preg_match($allowedPattern, $cdesc) ||
+//         !preg_match($allowedPattern, $cunits) ||
+//         !preg_match($allowedPattern, $cadd) ||
+//         !preg_match($allowedPattern, $cadd2) ||
+//         !preg_match($allowedPattern, $ctypeold))
+//     {
+//         $_SESSION['message'] = "Special characters are not allowed in one or more fields";
+//         echo "<script>window.location.href = 'course.php';</script>";
+//         exit(0);
+//     }
+
+//     // Check if the course with the same code already exists
+//     $check_query = "SELECT course_id FROM courses WHERE ccode='$ccode' AND course_id != '$course_id'";
+//     $check_result = mysqli_query($conn, $check_query);
+    
+//     if (mysqli_num_rows($check_result) > 0) {
+//         $_SESSION['message'] = "Course already exists";
+//         echo "<script>window.location.href = 'course.php';</script>";
+//         exit(0);
+//     }
+
+//     // Update the course information
+//     $query = "UPDATE courses SET ccode='$ccode', cequi='$cequi', 
+//     cname='$cname', cdesc='$cdesc', cunits='$cunits', ctype='$ctype',
+//     cadd='$cadd', cadd2='$cadd2', ctypeold='$ctypeold' WHERE course_id='$course_id' ";
+//     $query_run = mysqli_query($conn, $query);
+
+//     if ($query_run){
+//         $_SESSION['message'] = "Course updated Successfully";
+//         echo "<script>window.location.href = 'course.php';</script>";
+//         exit(0);
+//     } else {
+//         $_SESSION['message'] = "Course Not updated";
+//         echo "<script>window.location.href = 'course.php';</script>";
+//         exit(0);
+//     }
+// }
+
 if(isset($_REQUEST['update_student']))
 {
     $course_id = mysqli_real_escape_string($conn, $_REQUEST['course_id']);
@@ -29,18 +87,46 @@ if(isset($_REQUEST['update_student']))
     $cname = mysqli_real_escape_string($conn, $_REQUEST['cname']);
     $cdesc = mysqli_real_escape_string($conn, $_REQUEST['cdesc']);
     $cunits = mysqli_real_escape_string($conn, $_REQUEST['cunits']);
-    $ctype = mysqli_real_escape_string($conn, $_REQUEST['ctype']);
+    $ctype = $_REQUEST['ctype']; // Bypass special character restriction
     $cadd = mysqli_real_escape_string($conn, $_REQUEST['cadd']);
     $cadd2 = mysqli_real_escape_string($conn, $_REQUEST['cadd2']);
     $ctypeold = mysqli_real_escape_string($conn, $_REQUEST['ctypeold']);
 
+    // Define a regular expression pattern for allowed characters
+    $allowedPattern = '/^[a-zA-Z0-9\s]+$/';
 
+    // Check if the input contains any disallowed characters for fields except ctype
+    if (!preg_match($allowedPattern, $ccode) ||
+        !preg_match($allowedPattern, $cequi) ||
+        !preg_match($allowedPattern, $cname) ||
+        !preg_match($allowedPattern, $cdesc) ||
+        !preg_match($allowedPattern, $cunits) ||
+        !preg_match($allowedPattern, $cadd) ||
+        !preg_match($allowedPattern, $cadd2) ||
+        !preg_match($allowedPattern, $ctypeold))
+    {
+        $_SESSION['message'] = "Special characters are not allowed in one or more fields";
+        echo "<script>window.location.href = 'course.php';</script>";
+        exit(0);
+    }
+
+    // Check if the course with the same code already exists
+    $check_query = "SELECT course_id FROM courses WHERE ccode='$ccode' AND course_id != '$course_id'";
+    $check_result = mysqli_query($conn, $check_query);
+    
+    if (mysqli_num_rows($check_result) > 0) {
+        $_SESSION['message'] = "Course already exists";
+        echo "<script>window.location.href = 'course.php';</script>";
+        exit(0);
+    }
+
+    // Update the course information
     $query = "UPDATE courses SET ccode='$ccode', cequi='$cequi', 
     cname='$cname', cdesc='$cdesc', cunits='$cunits', ctype='$ctype',
     cadd='$cadd', cadd2='$cadd2', ctypeold='$ctypeold' WHERE course_id='$course_id' ";
     $query_run = mysqli_query($conn, $query);
 
-    if (mysqli_query($conn, $query)){
+    if ($query_run){
         $_SESSION['message'] = "Course updated Successfully";
         echo "<script>window.location.href = 'course.php';</script>";
         exit(0);
@@ -49,23 +135,114 @@ if(isset($_REQUEST['update_student']))
         echo "<script>window.location.href = 'course.php';</script>";
         exit(0);
     }
-
 }
-?>
 
-<?php
-if(isset($_POST['save_student']))
+
+if (isset($_POST['save_student'])) {
+    require('dbcon.php'); // Replace with your actual database connection
+
+    $ccode = $_POST['ccode'];
+    $cequi = $_POST['cequi'];
+    $cname = $_POST['cname'];
+    $cdesc = $_POST['cdesc'];
+    $cunits = $_POST['cunits'];
+    $ctype = $_POST['ctype'];
+    $cadd = $_POST['cadd'];
+    $cadd2 = $_POST['cadd2'];
+    $ctypeold = $_POST['ctypeold'];
+
+    // Check if any field is left blank
+    if (empty($ccode) || empty($cequi) || empty($cname) || empty($cdesc) || empty($cunits) || empty($ctype) || empty($cadd) || empty($cadd2) || empty($ctypeold)) {
+        $_SESSION['message'] = "Please fill in all the required fields";
+        echo "<script>window.location.href = 'course-create.php';</script>";
+        exit(0);
+    }
+
+    /*// Define a regular expression pattern for allowed characters
+    $allowedPattern = '/^[a-zA-Z0-9\s]+$/';
+
+    // Check if the input contains any disallowed characters for fields except ctype
+    if (!preg_match($allowedPattern, $ccode) ||
+        !preg_match($allowedPattern, $cequi) ||
+        !preg_match($allowedPattern, $cname) ||
+        !preg_match($allowedPattern, $cdesc) ||
+        !preg_match($allowedPattern, $cunits) ||
+        !preg_match($allowedPattern, $cadd) ||
+        !preg_match($allowedPattern, $cadd2) ||
+        !preg_match($allowedPattern, $ctypeold)) {
+        $_SESSION['message'] = "Special characters are not allowed in one or more fields";
+        echo "<script>window.location.href = 'course.php';</script>";
+        exit(0);
+    }*/
+
+    // Check if the course with the same code already exists
+    $check_query = "SELECT course_id FROM courses WHERE ccode='$ccode'";
+    $check_result = mysqli_query($conn, $check_query);
+
+    if (mysqli_num_rows($check_result) > 0) {
+        $_SESSION['message'] = "Course already exists";
+        echo "<script>window.location.href = 'course-create.php';</script>";
+        exit(0);
+    }
+
+    // Insert the new course
+    $query = "INSERT INTO courses (ccode,cequi,cname,cdesc,cunits,ctype,cadd,cadd2,ctypeold) 
+    VALUES ('$ccode','$cequi','$cname','$cdesc','$cunits','$ctype','$cadd','$cadd2','$ctypeold')";
+    
+    if (mysqli_query($conn, $query)) {
+        $_SESSION['message'] = "Course Created Successfully";
+        echo "<script>window.location.href = 'course.php';</script>";
+        exit(0);
+    } else {
+        $_SESSION['message'] = "Course Not Created";
+        echo "<script>window.location.href = 'course.php';</script>";
+        exit(0);
+    }
+
+    mysqli_close($conn); // Close the database connection
+}
+
+/*if(isset($_POST['save_student']))
 {
-    $ccode = mysqli_real_escape_string($conn, $_POST['ccode']);
-    $cequi = mysqli_real_escape_string($conn, $_POST['cequi']);
-    $cname = mysqli_real_escape_string($conn, $_POST['cname']);
-    $cdesc = mysqli_real_escape_string($conn, $_POST['cdesc']);
-    $cunits = mysqli_real_escape_string($conn, $_POST['cunits']);
-    $ctype = mysqli_real_escape_string($conn, $_POST['ctype']);
-    $cadd = mysqli_real_escape_string($conn, $_POST['cadd']);
-    $cadd2 = mysqli_real_escape_string($conn, $_POST['cadd2']);
-    $ctypeold = mysqli_real_escape_string($conn, $_POST['ctypeold']);
+    $ccode = $_POST['ccode'];
+    $cequi = $_POST['cequi'];
+    $cname = $_POST['cname'];
+    $cdesc = $_POST['cdesc'];
+    $cunits = $_POST['cunits'];
+    $ctype = $_POST['ctype'];
+    $cadd = $_POST['cadd'];
+    $cadd2 = $_POST['cadd2'];
+    $ctypeold = $_POST['ctypeold'];
 
+    // Define a regular expression pattern for allowed characters
+    $allowedPattern = '/^[a-zA-Z0-9\s]+$/';
+
+    // Check if the input contains any disallowed characters for fields except ctype
+    if (!preg_match($allowedPattern, $ccode) ||
+        !preg_match($allowedPattern, $cequi) ||
+        !preg_match($allowedPattern, $cname) ||
+        !preg_match($allowedPattern, $cdesc) ||
+        !preg_match($allowedPattern, $cunits) ||
+        !preg_match($allowedPattern, $cadd) ||
+        !preg_match($allowedPattern, $cadd2) ||
+        !preg_match($allowedPattern, $ctypeold))
+    {
+        $_SESSION['message'] = "Special characters are not allowed in one or more fields";
+        echo "<script>window.location.href = 'course.php';</script>";
+        exit(0);
+    }
+
+    // Check if the course with the same code already exists
+    $check_query = "SELECT course_id FROM courses WHERE ccode='$ccode'";
+    $check_result = mysqli_query($conn, $check_query);
+
+    if (mysqli_num_rows($check_result) > 0) {
+        $_SESSION['message'] = "Course already exists";
+        echo "<script>window.location.href = 'course.php';</script>";
+        exit(0);
+    }
+
+    // Insert the new course
     $query = "INSERT INTO courses (ccode,cequi,cname,cdesc,cunits,ctype,cadd,cadd2,ctypeold) 
     VALUES ('$ccode','$cequi','$cname','$cdesc','$cunits','$ctype','$cadd','$cadd2','$ctypeold')";
     
@@ -79,6 +256,7 @@ if(isset($_POST['save_student']))
         exit(0);
     }
 }
+*/
 
 //PAGINATION//
 

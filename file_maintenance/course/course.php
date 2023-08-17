@@ -7,6 +7,142 @@ include 'dbcon.php';
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Add click event listener to clickable-td elements
+    $(".clickable-td").click(function() {
+        var td = $(this);
+        
+        // Exclude ctype column from being editable
+        if (!td.hasClass("not-editable")) {
+            var originalContent = td.text();
+            var maxFieldLength = td.data("max-length");
+            
+            // Handle special case for cunits column
+            if (td.hasClass("cunits")) {
+                // Create input element with type number and min/max attributes
+                var input = $("<input type='number' class='editable-input'>");
+                input.val(originalContent);
+                input.attr("min", 1); // Set minimum value
+                input.attr("max", 10); // Set maximum value
+                
+                // Replace the text content with input
+                td.html(input);
+                
+                // Focus on the input
+                input.focus();
+                
+                var hasChanges = false;
+                
+                // Detect changes in input value
+                input.on('input', function() {
+                    if ($(this).val() !== originalContent) {
+                        hasChanges = true;
+                    } else {
+                        hasChanges = false;
+                    }
+                });
+                
+                // Save the original content when input loses focus
+                input.blur(function() {
+                    var newContent = $(this).val();
+                    var courseId = td.data("course-id");
+                    
+                    // Check for unchanged input
+                    if (!hasChanges) {
+                        td.text(originalContent);
+                        return;
+                    }
+                    
+                    // Validate new content for numeric values between 1 and 10
+                    var numericValue = parseInt(newContent);
+                    if (isNaN(numericValue) || numericValue < 1 || numericValue > 10) {
+                        alert("Please enter a numeric value between 1 and 10.");
+                        // Reset to original content
+                        td.text(originalContent);
+                        return;
+                    }
+                    
+                    // Update the content in the table cell
+                    td.text(newContent);
+                    
+                    // Perform AJAX request to update the database
+                    $.post("update_course.php", {
+                        course_id: courseId,
+                        field_name: td.attr("data-field"),
+                        field_value: newContent
+                    }, function(response) {
+                        if (response === "success") {
+                            // Refresh the page after successful update
+                            location.reload();
+                        }
+                    });
+                });
+            } else {
+                // For other columns, similar code as before
+                var input = $("<input type='text' class='editable-input'>");
+                input.val(originalContent);
+                input.attr("maxlength", maxFieldLength);
+                
+                // Replace the text content with input
+                td.html(input);
+                
+                // Focus on the input and select its content
+                input.focus().select();
+                
+                var hasChanges = false;
+                
+                // Detect changes in input value
+                input.on('input', function() {
+                    if ($(this).val() !== originalContent) {
+                        hasChanges = true;
+                    } else {
+                        hasChanges = false;
+                    }
+                });
+                
+                // Save the original content when input loses focus
+                input.blur(function() {
+                    var newContent = $(this).val();
+                    var courseId = td.data("course-id");
+                    
+                    // Check for unchanged input
+                    if (!hasChanges) {
+                        td.text(originalContent);
+                        return;
+                    }
+                    
+                    // Check for blank input
+                    if (newContent === "") {
+                        // Reset to original content
+                        td.text(originalContent);
+                        return;
+                    }
+                    
+                    // Update the content in the table cell
+                    td.text(newContent);
+                    
+                    // Perform AJAX request to update the database
+                    $.post("update_course.php", {
+                        course_id: courseId,
+                        field_name: td.attr("data-field"),
+                        field_value: newContent
+                    }, function(response) {
+                        if (response === "success") {
+                            // Refresh the page after successful update
+                            location.reload();
+                        } else {
+                            alert("An error occurred while updating the course.");
+                        }
+                    });
+                });
+            }
+        }
+    });
+});
+</script>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -73,12 +209,9 @@ include 'dbcon.php';
 
             <div class="search-box">
                 <i class="uil uil-search"></i>
-                <input type="text" id="myInput" placeholder="Search here..." class="form-control">
+                <input type="text" id="searchInput" placeholder="Search here..." oninput="searchTable()" style="text-transform: uppercase;">
             </div>
 
-            <!----===== Iconscout CSS ===== -->
-
-            
             <!--<img src="images/profile.jpg" alt="">-->
             <div class="norms">
                 <div class="loki" onclick="menuToggle();">
@@ -110,7 +243,6 @@ include 'dbcon.php';
             </div>
         </div>
 
-
         <div class="dash-content">
             <div class="overview">
             
@@ -136,14 +268,14 @@ include 'dbcon.php';
                                         <thead>
                                             <tr>
                                                 <th class="td">CCODE</th>
-                                                <th contenteditable="true" class="td">CEQUI</th>
-                                                <th contenteditable="true" class="td">CNAME</th>
-                                                <th contenteditable="true" class="td">CDESC</th>
-                                                <th contenteditable="true" class="td">CUNITS</th>
-                                                <th contenteditable="true" class="td">CTYPE</th>
-                                                <th contenteditable="true" class="td">CADD</th>
-                                                <th contenteditable="true" class="td">CADD2</th>
-                                                <th contenteditable="true" class="td">CTYPEOLD</th>
+                                                <th class="td">CEQUI</th>
+                                                <th class="td">CNAME</th>
+                                                <th class="td">CDESC</th>
+                                                <th class="td">CUNITS</th>
+                                                <th class="td">CTYPE</th>
+                                                <th class="td">CADD</th>
+                                                <th class="td">CADD2</th>
+                                                <th class="td">CTYPEOLD</th>
                                                 <th class="td"></th>
                                             </tr>
                                         </thead>
@@ -168,19 +300,39 @@ include 'dbcon.php';
                                                     $courseJson = json_encode([$ccode, $cequi, $cname, $cdesc, $cunits, $ctype, $cadd, $cadd2, $ctypeold,]);
                                                     ?>
                                                     <tr class="myList">
-                                                        <td><?= $course['ccode']; ?></td>
-                                                        <td><?= $course['cequi']; ?></td>
-                                                        <td><?= $course['cname']; ?></td>
-                                                        <td><?= $course['cdesc']; ?></td>
-                                                        <td><?= $course['cunits']; ?></td>
-                                                        <td><?= $course['ctype']; ?></td>
-                                                        <td><?= $course['cadd']; ?></td>
-                                                        <td><?= $course['cadd2']; ?></td>
-                                                        <td><?= $course['ctypeold']; ?></td>
+
+                                                        <td class="clickable-td ccode" data-course-id="<?= $course['course_id']; ?>" data-field="ccode" data-max-length="<?= $maxCcodeLength; ?>">
+                                                            <?= strtoupper($course['ccode']); ?>
+                                                        </td>
+                                                        <td class="clickable-td cequi" data-course-id="<?= $course['course_id']; ?>" data-field="cequi" data-max-length="<?= $maxCequiLength; ?>">
+                                                            <?= strtoupper($course['cequi']); ?>
+                                                        </td>
+                                                        <td class="clickable-td cname" data-course-id="<?= $course['course_id']; ?>" data-field="cname" data-max-length="<?= $maxCnameLength; ?>">
+                                                            <?= strtoupper($course['cname']); ?>
+                                                        </td>
+                                                        <td class="clickable-td cdesc" data-course-id="<?= $course['course_id']; ?>" data-field="cdesc" data-max-length="<?= $maxCdescLength; ?>">
+                                                            <?= strtoupper($course['cdesc']); ?>
+                                                        </td>
+                                                        <td class="clickable-td cunits" data-course-id="<?= $course['course_id']; ?>" data-field="cunits" data-max-length="<?= $maxCunitsLength; ?>">
+                                                            <?= strtoupper($course['cunits']); ?>
+                                                        </td>
+                        
+                                                        <td><?= strtoupper($course['ctype']); ?></td>
+                                                        </td>
+                                                        <td class="clickable-td cadd" data-course-id="<?= $course['course_id']; ?>" data-field="cadd" data-max-length="<?= $maxCaddLength; ?>">
+                                                            <?= strtoupper($course['cadd']); ?>
+                                                        </td>
+                                                        <td class="clickable-td cadd2" data-course-id="<?= $course['course_id']; ?>" data-field="cadd2" data-max-length="<?= $maxCadd2Length; ?>">
+                                                            <?= strtoupper($course['cadd2']); ?>
+                                                        </td>
+                                                        <td class="clickable-td ctypeold" data-course-id="<?= $course['course_id']; ?>" data-field="ctypeold" data-max-length="<?= $maxCtypeoldLength; ?>">
+                                                            <?= strtoupper($course['ctypeold']); ?>
+                                                        </td>
+
                                                         <td>
-                                                            <div class="inline">
+                                                            <!-- <div class="inline">
                                                                 <a href="course-edit.php?course_id=<?= $course['course_id']; ?>" class="btn btn-info btn-sm">Edit</a>
-                                                            </div>
+                                                            </div> -->
                                                             <div class="inline">
                                                                 <form action="course.php" method="POST" class="d-inline">
                                                                     <button type="submit" name="delete_student" value="<?= $course['course_id']; ?>" class="btn btn-danger btn-sm">Withdraw</a>

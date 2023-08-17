@@ -8,7 +8,7 @@ body.dark .sue {
     color: white;
 }
 body.dark li.main-link a {
-    background-color: #242526;
+    background-color: transparent;
 }
 .sue::-webkit-scrollbar {
     width: 0.5em; /* Width of the scrollbar */
@@ -55,7 +55,7 @@ li.main-link a {
     width: 100%;
     text-decoration: none;
     color: inherit;
-    background-color: white;
+    background-color: transparent;
     display: flex;
     transition: background-color 0.3s ease;
 }
@@ -241,7 +241,7 @@ color: var(--text-color);
 cursor: pointer;
 }
 .dashboard .dash-content{
-padding-top: 50px;
+padding-top: 100px;
 }
 .dash-content .title{
 display: flex;
@@ -398,3 +398,17 @@ transition: 0.5s;
 {
 color: maroon;
 }
+
+
+
+.top button {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+
+
+
+

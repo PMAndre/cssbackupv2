@@ -56,24 +56,7 @@
 
    </div>
 
-   <scrpt src="script.js"></script>
-   <script>
-      function togglePasswordVisibility() {
-         var passwordInput = document.getElementById('password');
-         var showHideIcon = document.getElementById('showHideIcon');
-
-         if (passwordInput.type === 'password') {
-               passwordInput.type = 'text';
-               showHideIcon.classList.remove('fa-eye-slash');
-               showHideIcon.classList.add('fa-eye');
-         } else {
-               passwordInput.type = 'password';
-               showHideIcon.classList.remove('fa-eye');
-               showHideIcon.classList.add('fa-eye-slash');
-         }
-      }
-   </script>
-
+   <script src="script.js"></script>
 
 </body>
 </html>

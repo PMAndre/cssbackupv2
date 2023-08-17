@@ -13,7 +13,7 @@ require 'dbcon.php';
     <!-- CSS -->
     <link rel="stylesheet" href="css/style6.css">
 
-    <title>Student Create</title>
+    <title>Cadet Create</title>
 </head>
 <body>
   
@@ -40,63 +40,70 @@ require 'dbcon.php';
                                 <input type="text" name="afpsn" id="afpsn" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>SERVID</label>
+                                <label>Service ID</label>
                                 <input type="text" name="servid" id="servid" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>MAJID</label>
+                                <label>Major ID</label>
                                 <input type="text" name="majid" id="majid" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>YRGR</label>
+                                <label>Year of Gradation</label>
                                 <input type="text" name="yrgr" id="yrgr" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>OYRGR</label>
+                                <label>Original Year of Graduation</label>
                                 <input type="text" name="oyrgr" id="oyrgr" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>LNAME</label>
+                                <label>Last Name</label>
                                 <input type="text" name="lname" id="lname" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>FNAME</label>
+                                <label>First Name</label>
                                 <input type="text" name="fname" id="fname" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>ANAME</label>
-                                <input type="text" name="aname" id="aname" class="form-control" style="text-transform: uppercase;" required>
+                                <label>Suffix</label>
+                                <select name="aname" id="aname" class="form-control" style="text-transform: uppercase;" required>
+                                    <option value="select">Select</option>
+                                    <option value="jr">jr.</option>
+                                    <option value="1st">I</option>
+                                    <option value="2nd">II</option>
+                                    <option value="3rd">III</option>
+                                    <option value="sr">Sr.</option>
+                                </select>
                             </div>
                             <div class="mb-3">
-                                <label>MNAME</label>
+                                <label>Middle Name</label>
                                 <input type="text" name="mname" id="mname" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>INITLS</label>
+                                <label>Initials</label>
                                 <input type="text" name="initls" id="initls" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>GENDER</label>
+                                <label>Gender</label>
                                 <select name="gender" id="gender" class="form-control" style="text-transform: uppercase;" required>
                                     <option value="MALE">Male</option>
                                     <option value="FEMALE">Female</option>
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label>BDATE</label>
+                                <label>Birth Date</label>
                                 <input type="date" name="bdate" id="bdate" class="form-control" required>
                             </div>
                             <div class="mb-3">
-                                <label>BPLACE</label>
+                                <label>Birth Place</label>
                                 <input type="text" name="bplace" id="bplace" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>PAPA</label>
+                                <label>Father</label>
                                 <input type="text" name="papa" id="papa" class="form-control" style="text-transform: uppercase;" required>
                             </div>
-
+<!--
                             <div class="mb-3">
-                                <label>PADEAD</label>
+                                <label>Deceased Father</label>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="padead" id="padead" value="1">
                                     <label class="form-check-label" for="padead">
@@ -104,14 +111,14 @@ require 'dbcon.php';
                                     </label>
                                 </div>
                             </div>
-
+-->
                             <div class="mb-3">
-                                <label>MAMA</label>
+                                <label>Mother</label>
                                 <input type="text" name="mama" id="mama" class="form-control" style="text-transform: uppercase;" required>
                             </div>
-
+<!--
                             <div class="mb-3">
-                                <label>MADEAD</label>
+                                <label>Deceased Mother</label>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="madead" id="padead" value="1">
                                     <label class="form-check-label" for="m adead">
@@ -119,46 +126,34 @@ require 'dbcon.php';
                                     </label>
                                 </div>
                             </div>
-                            
+-->
                             <div class="mb-3">
-                                <label>GUARDIAN</label>
+                                <label>Guardian</label>
                                 <input type="text" name="guardian" id="guardian" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>ADDR1</label>
-                                <input type="text" name="addr1" id="addr1" class="form-control" style="text-transform: uppercase;" required>
+                                <label>Address 1</label>
+                                <input type="text" name="addr1" id="addr1" class="form-control" placeholder="house #, st, brg, province" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>ADDR2</label>
-                                <input type="text" name="addr2" id="addr2" class="form-control" style="text-transform: uppercase;" required>
+                                <label>Address 2 (Optional)</label>
+                                <input type="text" name="addr2" id="addr2" class="form-control" placeholder="house #, st, brg, province" style="text-transform: uppercase;">
                             </div>
                             <div class="mb-3">
-                                <label>ZIPCODE</label>
+                                <label>Zip Code</label>
                                 <input type="number" name="zipcode" id="zipcode" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>REGION</label>
-                                <select name="region" id="region" class="form-control" required>
-                                    <?php
-                                    // Include the countries.php file
-                                    require 'path/to/countries.php';
-
-                                    // Get an associative array of countries and their codes
-                                    $countries = countries();
-
-                                    // Loop through the countries and create options
-                                    foreach ($countries as $code => $name) {
-                                        echo '<option value="' . $code . '">' . $name . '</option>';
-                                    }
-                                    ?>
-                                </select>
+                                <label>Region</label>
+                                <input type="text" name="region" id="region" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>HIGHSCH</label>
+                                <label>High School</label>
                                 <input type="text" name="highsch" id="highsch" class="form-control" style="text-transform: uppercase;" required>
                             </div>
+                            
                             <div class="mb-3">
-                                <label>HEIGHT (in cm)</label>
+                                <label>Height (in cm)</label>
                                 <input type="number" name="height" id="height" class="form-control" step='0.01' required>
                             </div>
                             <!-- 
@@ -186,48 +181,48 @@ require 'dbcon.php';
                                 <input type="text" name="battalion2" id="battalion2" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>CSTAT</label>
+                                <label>C Status</label>
                                 <input type="text" name="cstat" id="cstat" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>PIX</label>
+                                <label>Picture</label>
                                 <br>
                                 <input type="file" name="pix" id="pix" class="form-control-file">
                             </div>
                             <div class="mb-3">
-                                <label>REMARKS</label>
+                                <label>Remarks</label>
                                 <input type="text" name="remarks" id="remarks" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>DATEADMITTED</label>
+                                <label>Date Admitted</label>
                                 <input type="text" name="dateadmitted" id="dateadmitted" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>DATEGRAD</label>
+                                <label>Date Graduate</label>
                                 <input type="text" name="dategrad" id="dategrad" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>DATECOMM</label>
+                                <label>Date Commplited</label>
                                 <input type="text" name="datecomm" id="datecomm" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>DEGREE</label>
+                                <label>Degree</label>
                                 <input type="text" name="degree" id="degree" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>MAJORIN</label>
+                                <label>Major In</label>
                                 <input type="text" name="majorin" id="majorin" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>GRADUATE</label>
+                                <label>Graduate</label>
                                 <input type="text" name="graduate" id="graduate" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>LATINAWARD</label>
+                                <label>Latin Award </label>
                                 <input type="text" name="latinaward" id="latinaward" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
-                                <label>PASSWORD</label>
+                                <label>Password</label>
                                 <input type="password" name="password" id="password" class="form-control" style="text-transform: uppercase;" required>
                             </div>
                             <div class="mb-3">
@@ -238,7 +233,7 @@ require 'dbcon.php';
                             <input type="hidden" name="active" value="1">
 
                             <div class="mb-3">
-                                <button type="submit" name="save_student" class="btn btn-primary" value="submit">Save Cadet</button>
+                                <button type="submit" name="save_cadet" class="btn btn-primary" value="submit">Save Cadet</button>
                             </div>
 
                             

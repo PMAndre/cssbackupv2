@@ -3,19 +3,19 @@
 require 'dbcon.php';
 
 
-if(isset($_POST['delete_student']))
+if(isset($_POST['delete_cadet']))
 {
-    $student_id = mysqli_real_escape_string($conn, $_POST['delete_student']);
+    $cadet_id = mysqli_real_escape_string($conn, $_POST['delete_cadet']);
 
-    $query = "DELETE FROM cadet WHERE id='$student_id' ";
+    $query = "DELETE FROM cadet WHERE id='$cadet_id' ";
     $query_run = mysqli_query($conn, $query);
 
     if (mysqli_query($conn, $query)){
-        $_SESSION['message'] = "Student delete Successfully";
+        $_SESSION['message'] = "Cadet delete Successfully";
         echo "<script>window.location.href = 'cadet.php';</script>";
         exit(0);
     } else {
-        $_SESSION['message'] = "Student Not deleted ";
+        $_SESSION['message'] = "Cadet Not deleted ";
         echo "<script>window.location.href = 'cadet.php';</script>";
         exit(0);
     }
@@ -92,7 +92,7 @@ if (isset($_POST['activate_cadet'])) {
     exit(0);
 }
 
-if (isset($_REQUEST['update_student'])) {
+if (isset($_REQUEST['update_cadet'])) {
     $cadet_id = mysqli_real_escape_string($conn, $_REQUEST['cadet_id']);
     $afpsn = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['afpsn']));
     $servid = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['servid']));
@@ -117,8 +117,8 @@ if (isset($_REQUEST['update_student'])) {
     $zipcode = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['zipcode']));
     $region = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['region']));
     $highsch = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['highsch']));
-    $height = floatval($_POST['height']);
-    $height = mysqli_real_escape_string($conn, $height);
+    //$height = floatval($_POST['height']);
+    //$height = mysqli_real_escape_string($conn, $height);
     //$eescore = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['eescore']));
     //$math = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['math']));
     //$engl = strtoupper(mysqli_real_escape_string($conn, $_REQUEST['engl']));
@@ -289,7 +289,7 @@ if (isset($_REQUEST['update_student'])) {
 
     $query = "UPDATE cadet SET afpsn='$afpsn', servid='$servid', majid='$majid', yrgr='$yrgr', oyrgr='$oyrgr', lname='$lname', fname='$fname', aname='$aname',
     mname='$mname', initls='$initls', gender='$gender', bdate='$bdate', bplace='$bplace', papa='$papa', padead='$padead', mama='$mama', madead='$madead', 
-    guardian='$guardian', addr1='$addr1', addr2='$addr2', zipcode='$zipcode', region='$region', highsch='$highsch', height='$height', coy='$coy', 
+    guardian='$guardian', addr1='$addr1', addr2='$addr2', zipcode='$zipcode', region='$region', highsch='$highsch', coy='$coy', 
     battalion='$battalion', battalion2='$battalion2', cstat='$cstat', remarks='$remarks', pix='$imageData', dateadmitted='$dateadmitted', dategrad='$dategrad',
     datecomm='$datecomm', degree='$degree', latinaward='$latinaward', password='$password', coybat='$coybat'
     WHERE cadet_id='$cadet_id' ";
@@ -307,7 +307,7 @@ if (isset($_REQUEST['update_student'])) {
 ?>
 
 <?php
-if(isset($_POST['save_student']))
+if(isset($_POST['save_cadet']))
 { 
     // save the input database
     $afpsn = strtoupper($_POST['afpsn']);
@@ -333,7 +333,7 @@ if(isset($_POST['save_student']))
     $zipcode = strtoupper($_POST['zipcode']);
     $region = strtoupper($_POST['region']);
     $highsch = strtoupper($_POST['highsch']);
-    $height = floatval($_POST['height']);
+    //$height = floatval($_POST['height']);
     //$eescore = strtoupper($_POST['eescore']);
     //$math = strtoupper($_POST['math']);
     //$engl = strtoupper($_POST['engl']);
@@ -483,13 +483,6 @@ if(isset($_POST['save_student']))
         exit(0);
     }
 
-    // error message when the height exceed in cm
-    if ($height < 100 || $height > 300) {
-        $_SESSION['message'] = "Height should be between 100 cm and 300 cm";
-        echo "<script>window.location.href = 'cadet-create.php';</script>";
-        exit(0);
-    }
-
     // Handle image upload
     if (isset($_FILES['pix']) && $_FILES['pix']['size'] > 0) {
         $image = $_FILES['pix']['tmp_name'];
@@ -513,17 +506,17 @@ if(isset($_POST['save_student']))
 
     // height,eescore,math,engl,spma was not include
     $query = "INSERT INTO cadet (afpsn, servid, majid, yrgr, oyrgr, lname, fname, aname, mname, initls, gender, bdate, bplace, papa, padead, mama, madead, guardian, addr1, addr2, zipcode,
-    region, highsch, height, coy, battalion, battalion2, cstat, remarks, pix, dateadmitted, dategrad, datecomm, degree, majorin, graduate, latinaward, password, coybat, active) 
+    region, highsch, coy, battalion, battalion2, cstat, remarks, pix, dateadmitted, dategrad, datecomm, degree, majorin, graduate, latinaward, password, coybat, active) 
     VALUES ('$afpsn', '$servid', '$majid', '$yrgr', '$oyrgr', '$lname', '$fname', '$aname', '$mname', '$initls', '$gender', '$bdate', '$bplace', '$papa', '$padead', '$mama', '$madead',
-    '$guardian', '$addr1','$addr2', '$zipcode', '$region', '$highsch', '$height', '$coy', '$battalion', '$battalion2', '$cstat', '$remarks', '$imageData', '$dateadmitted', '$dategrad', 
+    '$guardian', '$addr1','$addr2', '$zipcode', '$region', '$highsch', '$coy', '$battalion', '$battalion2', '$cstat', '$remarks', '$imageData', '$dateadmitted', '$dategrad', 
     '$datecomm', '$degree', '$majorin', '$graduate', '$latinaward', '$password', '$coybat', '$active')";
 
     if (mysqli_query($conn, $query)) {
-        $_SESSION['message'] = "Student Created Successfully";
+        $_SESSION['message'] = "Cadet Created Successfully";
         echo "<script>window.location.href = 'cadet.php';</script>";
         exit(0);
     } else {
-        $_SESSION['message'] = "Student Not Created";
+        $_SESSION['message'] = "Cadet Not Created";
         echo "<script>window.location.href = 'cadet.php';</script>";
         exit(0);
     }

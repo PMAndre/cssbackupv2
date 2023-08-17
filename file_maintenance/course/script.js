@@ -106,7 +106,7 @@ arrow.addEventListener("click", function() {
 
 
 
-// filtering search box
+/*// filtering search box
 function searchTable() {
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("searchInput");
@@ -151,3 +151,4 @@ function searchTable() {
         tr[i].style.display = hasMatch ? "" : "none";
     }
 }
+*/
