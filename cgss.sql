@@ -196,6 +196,34 @@ CREATE TABLE `faculty` (
 
 LOCK TABLES `faculty` WRITE;
 /*!40000 ALTER TABLE `faculty` DISABLE KEYS */;
+(1,'INS001','MATH1','Dela Cruz','Juan','A','-','M','HAG','C','MS'),
+(2,'INS002','MATH2','Apolinario','Andres','A','-','M','HAG','M','MS'),
+(3,'INS003','MATH3','Silang','Gabriel','A','-','F','HAG','C','MR'),
+(4,'INS004','MATH4','Ibarra','Crisostomo','B','-','M','HAG','C','MR'),
+(5,'INS005','ENGL1','Lang','Scott','B','-','M','-','C','MR'),
+(6,'INS006','ENGL2','Gates','Ethan','B','-','M','HAG','M','COL'),
+(7,'INS007','ENGL3','De Santa','Michael','C','-','M','HAG','M','LT'),
+(8,'INS008','ENGL4','Del Pilar','Jimmy','C','-','M','HAG','C','MAJ'),
+(9,'INS009','FIL1','Wesley','John','C','-','M','HAG','C','LTC'),
+(10,'INS010','FIL2','Mark','Romanoff','D','-','F','HAG','C','LTC'),
+(11,'INS011','PE1','Johnson','Wanda','D','-','F','HAG','C','MR'),
+(12,'INS012','PE2','Sweet','Peter','D','-','M','HAG','C','CPT'),
+(13,'INS013','PE3','Steve','Bezos','E','-','M','HAG','M','CPT'),
+(14,'INS014','PE4','Hank','Melchora','E','-','F','-','M','CPT'),
+(15,'INS015','I32','Barton','Marcelo','E','-','M','-','M','GEN'),
+(16,'INS016','I32','Strange','Quill','F','-','F','-','M','LT'),
+(17,'INS017','I32','Vic','Vans','F','-','M','-','C','LT'),
+(18,'INS018','I32','Parker','Bill','F','-','M','HAG','C','MS'),
+(19,'INS019','I32','Granger','Crest','G','-','M','HAG','C','LTS'),
+(20,'INS020','I32','Philips','Franklin','G','-','M','HAG','C','MR'),
+(21,'INS021','I32','Cipriani','Russel','G','-','M','HAG','M','MR'),
+(22,'INS022','I32','Weston','Devin','H','-','F','HAG','M','LTC'),
+(23,'INS023','I32','Aiblinger','Boris','H','-','M','HAG','M','LTC'),
+(24,'INS024','I32','Uchiha','Hanji','H','-','F','-','C','MR'),
+(25,'INS025','I32','Springer','Erwin','I','-','M','-','M','LTC'),
+(26,'INS026','I32','Pyxis','Dot','I','-','F','HAG','M','CPT'),
+(27,'INS027','I32','Caluza','Kenny','I','-','M','HAG','M','MAJ'),
+(28,'INS028','I32','Panopio','Eld','J','-','F','HAG','M','LT'),
 /*!40000 ALTER TABLE `faculty` ENABLE KEYS */;
 UNLOCK TABLES;
 
